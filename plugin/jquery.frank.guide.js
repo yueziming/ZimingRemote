@@ -6,7 +6,7 @@
  */
 /**
  * 自定义通用新手指导工具
- * *若需要用到UrlClass并且URL模式为PATHINFO的话，可以在载入该js文件的标签内写入data-mvc-name的属性键入需要排除的关键值
+ * *
  *
  * @author yueziming
  * @version 1.00
