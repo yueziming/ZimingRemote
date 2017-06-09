@@ -1,0 +1,197 @@
+{
+  "headerTitle":["ID","标题","姓名","内容","备注","创建时间"],
+  "nvabarMenu":[
+    {
+      "id":1,
+      "title":"系统管理",
+      "icon":"lnr lnr-cog",
+      "menuName":"systemControl",
+      "children":[
+        {
+          "id":3,
+          "title":"用户角色",
+          "link":"page-profile.html"
+        },
+        {
+          "id":4,
+          "title":"用户权限",
+          "link":"page-login.html"
+        }
+      ]
+    },
+    {
+      "id":2,
+      "title":"资产管理",
+      "icon":"lnr lnr-dice",
+      "menuName":"subPages",
+      "children":[
+        {
+          "id":5,
+          "title":"用户名管理",
+          "link":"page-profile.html"
+        },
+        {
+          "id":6,
+          "title":"密码管理",
+          "link":"page-profile.html"
+        }
+      ]
+    }
+  ],
+  "status":1,
+  "data": [
+  {
+    "id": "1",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "2",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "3",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "4",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "5",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "6",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "7",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "8",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "9",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "10",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "11",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "12",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "13",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "14",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "15",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "16",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },{
+    "id": "17",
+    "title": "标题1",
+    "name": "姓名",
+    "content": "内容",
+    "mark": "备注",
+    "updatetime": "创建时间"
+  },
+    {
+      "id": "18",
+      "title": "标题1",
+      "name": "姓名",
+      "content": "内容",
+      "mark": "备注",
+      "updatetime": "创建时间"
+    },
+    {
+      "id": "19",
+      "title": "标题1",
+      "name": "姓名",
+      "content": "内容",
+      "mark": "备注",
+      "updatetime": "创建时间"
+    },
+    {
+      "id": "20",
+      "title": "标题1",
+      "name": "姓名",
+      "content": "内容",
+      "mark": "备注",
+      "updatetime": "创建时间"
+    },
+    {
+      "id": "21",
+      "title": "标题1",
+      "name": "姓名",
+      "content": "内容",
+      "mark": "备注",
+      "updatetime": "创建时间"
+    }
+  ],
+  "total": "21"
+}

@@ -3,26 +3,22 @@
  */
 $(function(){
 	$.ajax({
-		url:Api.url.INDEXTABLE,
+		//url:Api.url.INDEXTABLE,
+		url:'assets/json/test.json',
 		type:'get',
 		dataType:'json',
-		data:{},
+		//data:{},
 		success:function(res){
 			if(res.status === 1 && res.data){
-				for(var k in res.data[0]){
-					vue.key[k] = k;
-				}
-				for(var i=0;i<res.data.length;i++){
-					var obj ={};
-					for(var k in vue.key){
-						obj[vue.key[k]] = res.data[i][vue.key[k]];
-					}
-					vue.arrayData.push(obj);
-				}
-				vue.showPage(2, null, true);
+				vue.showPage(res);
+				//for(var i=0;i<arrayData.length/2;i++)
+				//vue.showPage(2, null, true);
 			}
 		},
-		error:function(){
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			alert(XMLHttpRequest.status);
+			alert(XMLHttpRequest.readyState);
+			alert(textStatus);
 			console.log("网络异常");
 		}
 	});
@@ -64,7 +60,7 @@ $(function(){
 			//分页大小
 			pagesize: 10,
 			//显示分页按钮数
-			showPages: 11,
+			showPages: 10,
 			//开始显示的分页按钮
 			showPagesStart: 1,
 			//结束显示的分页按钮
@@ -78,7 +74,37 @@ $(function(){
 		},
 		methods: {
 			//分页方法
-			showPage: function (pageIndex, $event, forceRefresh) {
+			showPage:function(res){
+				//储存关键字
+				for(var k in res.data[0]){
+					vue.key[k] = k;
+				}
+				//储存获取到的数据
+				for(var i=0;i<res.data.length;i++){
+					var obj ={};
+					for(var k in vue.key){
+						obj[vue.key[k]] = res.data[i][vue.key[k]];
+					}
+					vue.arrayData.push(obj);
+				}
+				for(var i=0;i<=vue.pagesize;i++){
+					vue.arrayDataPage[i]=vue.arrayData[i];
+				}
+				$(".pagination li").eq(1).addClass("active");
+				//获取分页按钮数
+				vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);
+			},
+			changePage:function(event){
+				$(".pagination li").removeClass("active");
+				var target = event.target || window.event.srcElement;
+				var start = vue.pagesize*(parseInt($(target).text())-1);
+				vue.arrayDataPage = {};
+				for(var i=start;i<=parseInt(vue.pagesize)*$(target).text();i++){
+					vue.arrayDataPage[i]=vue.arrayData[i];
+				}
+				$(target).closest("li").addClass("active");
+			}
+			/*showPage: function (pageIndex, $event, forceRefresh) {
 
 				if (pageIndex > 0) {
 
@@ -108,7 +134,7 @@ $(function(){
 						}
 					}
 
-					/*//测试数据 随机生成的
+					/!*!//测试数据 随机生成的
 					var newPageInfo = [];
 					for (var i = 0; i < this.pagesize; i++) {
 						newPageInfo[newPageInfo.length] = {
@@ -117,7 +143,7 @@ $(function(){
 						};
 					}
 					this.pageCurrent = pageIndex;
-					this.arrayData = newPageInfo;*/
+					this.arrayData = newPageInfo;*!/
 
 					//计算分页按钮数据
 					if (this.pageCount > this.showPages) {
@@ -152,15 +178,17 @@ $(function(){
 					}
 					this.arrayData = newArray;
 				}
-			}
+			}*/
 		}
 	});
 	vue.$watch("pagesize", function (value) {
+		vue.arrayDataPage = {};
+		for(var i=0;i<=parseInt(vue.pagesize);i++){
+			vue.arrayDataPage[i]=vue.arrayData[i];
+		}
+		//获取分页按钮数
+		vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);
 		console.log(parseInt(vue.pagesize)+1);
-		//console.log("==============arrayData begin==============");
-		//console.log(value==vue.arrayData);
-		//console.log(vue.arrayData);
-		//console.log("==============arrayData end==============");
 	});
 //	vue.showPage(vue.pageCurrent, null, true);
 })
