@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=" utf-8">
+    <meta name="author" content="http://www.jb51.net/" />
+    <title>CSS如何实现弹出一个全屏灰黑色透明遮罩效果-脚本之家</title>
+    <style type="text/css">
+        *
+        {
+            margin:0px;
+            padding:0px;
+        }
+        .zhezhao
+        {
+            width:100%;
+            height:100%;
+            background-color:#000;
+            filter:alpha(opacity=20);
+            -moz-opacity:0.2;
+            opacity:0.2;
+            display: none;
+            position:fixed;
+            z-index:1000;
+        }
+        .login
+        {
+            text-align:center;
+            color:#d8d395;
+            width:400px;
+            height:20px;
+            position:fixed;
+            border-radius: 6px;
+            bottom:20px;
+            /*margin:0 auto;*/
+            left:50%;
+            /*right: 50%;*/
+            background-color:#2b2b2b;
+            margin-left:-200px;
+            display:none;
+            z-index:1001;
+            padding:5px 0px;
+        }
+        .content
+        {
+            margin-top:50px;
+            color:red;
+            line-height:200px;
+            height:200px;
+            text-align:center;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload=function()
+        {
+            var zhezhao=document.getElementById("zhezhao");
+            var login=document.getElementById("login");
+//            var bt=document.getElementById("bt");
+//            var btclose=document.getElementById("btclose");
+
+            bt.onclick=function()
+            {
+//                zhezhao.style.display="block";
+                login.style.display="block";
+            }
+            btclose.onclick=function()
+            {
+                zhezhao.style.display="none";
+                login.style.display="none";
+            }
+        }
+    </script>
+</head>
+<body>
+<!--<div class="zhezhao" id="zhezhao"></div>-->
+<div class="login" id="login">弹出框</div>
+<div class="content">脚本之家欢迎您，<button id="bt">点击弹出遮罩</button></div>
+</body>
+</html>

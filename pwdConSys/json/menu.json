@@ -14,8 +14,8 @@
 				},
 				{
 					"id":4,
-					"title":"用户权限",
-					"link":"page-login.html"
+					"title":"权限管理",
+					"link":"right_management.html"
 				}
 			]
 		},

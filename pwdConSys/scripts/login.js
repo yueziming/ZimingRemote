@@ -14,8 +14,8 @@ $(function(){
 					username:myLogin.username,
 					password:myLogin.password,
 					grant_type:'password',
-					client_id:3,
-					client_secret:'irimCIrr0i1xPC1RTDIjJ69CLSxtbPrwmsCiBCky'
+					client_id:2,
+					client_secret:'iRP2TOMDyNALPSMVlCgU2kOKEOfQssK6BmE4A8HZ'
 				};
 				common.ajax(Api.url.LOGIN,"post",data,function(res){
 					if(res.access_token){

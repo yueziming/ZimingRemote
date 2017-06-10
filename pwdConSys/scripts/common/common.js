@@ -5,7 +5,7 @@ $(function(){
 	var common = {
 		//初始化
 		init:function(){
-
+			this.ajaxSetting();
 		},
 		//公共ajax方法
 		ajax:function(url,type,data,callback){
@@ -14,6 +14,11 @@ $(function(){
 				url:url,
 				data:data,
 				type:type,
+				beforeSend: function(request) {
+					if(common.getData("access_token")){
+						request.setRequestHeader("Authorization", "Bearer "+common.getData("access_token"));
+					}
+				},
 				dataType:'json',
 				success:function(res){
 					callback(res);
@@ -63,6 +68,15 @@ $(function(){
 		//销毁本地存储
 		destoryLocalstorage:function(key){
 			localStorage.removeItem(key);
+		},
+		//弹出提示
+		tips:function(msg,time){
+			var toast = "<div class='toast' id='toast'>"+msg+"</div>";
+			$("body").append(toast);
+			$("#toast").animate({opacity:0},time);
+			setTimeout(function(){
+				$("#toast").remove();
+			},time);
 		}
 	}
 	window.common = common;

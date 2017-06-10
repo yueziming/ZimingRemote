@@ -1,43 +1,5 @@
 {
   "headerTitle":["ID","标题","姓名","内容","备注","创建时间"],
-  "nvabarMenu":[
-    {
-      "id":1,
-      "title":"系统管理",
-      "icon":"lnr lnr-cog",
-      "menuName":"systemControl",
-      "children":[
-        {
-          "id":3,
-          "title":"用户角色",
-          "link":"page-profile.html"
-        },
-        {
-          "id":4,
-          "title":"用户权限",
-          "link":"page-login.html"
-        }
-      ]
-    },
-    {
-      "id":2,
-      "title":"资产管理",
-      "icon":"lnr lnr-dice",
-      "menuName":"subPages",
-      "children":[
-        {
-          "id":5,
-          "title":"用户名管理",
-          "link":"page-profile.html"
-        },
-        {
-          "id":6,
-          "title":"密码管理",
-          "link":"page-profile.html"
-        }
-      ]
-    }
-  ],
   "status":1,
   "data": [
   {

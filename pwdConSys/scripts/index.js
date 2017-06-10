@@ -7,7 +7,7 @@ $(function(){
 		init:function(){
 			var data={};
 			//获取按钮数据
-			this.ajax("json/menu.json","get",data);
+			this.ajax(Api.url.LEFTMENU,"get",data);
 		},
 		indexObject:{
 			menus:[]
@@ -15,7 +15,7 @@ $(function(){
 		ajax:function(url,type,data){
 			var self = this;
 			common.ajax(url,type,data,function(res){
-				if(res && res.status ==='1'){
+				if(res && res.status ===1){
 					self.model(res);
 				}
 			});
@@ -54,7 +54,7 @@ $(function(){
 			for(var i=0;i<res.navbarMenu.length;i++){
 				var menuObj = {};
 				var childrens = [];
-				menuObj.id = res.navbarMenu[i].id;
+//				menuObj.id = res.navbarMenu[i].id;
 				menuObj.title = res.navbarMenu[i].title;
 				menuObj.icon = res.navbarMenu[i].icon;
 				menuObj.menuName = res.navbarMenu[i].menuName;

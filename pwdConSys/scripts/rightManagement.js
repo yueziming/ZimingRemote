@@ -1,9 +1,8 @@
 /**
- * Created by yueziming on 2017-6-8.
+ * Created by yueziming on 2017-6-10.
  */
 $(function(){
-	//获取左侧导航按钮
-	common.ajax(Api.url.ROLELIST,"get",{},function(res){
+	common.ajax(Api.url.RIGHTMANAGEMENT,"get",{},function(res){
 		if(res.status === 1 && res.data){
 			vue.showPage(res);
 		}
@@ -64,7 +63,9 @@ $(function(){
 					vue.arrayData.push(obj);
 				}
 				for(var i=0;i<vue.pagesize;i++){
-					vue.arrayDataPage[i]=vue.arrayData[i];
+					if(vue.arrayData[i]){
+						vue.arrayDataPage[i]=vue.arrayData[i];
+					}
 				}
 				//获取表头
 				for(var i=0;i<res.headerTitle.length;i++){
@@ -89,7 +90,9 @@ $(function(){
 				var start = (vue.pageCurrent -1)*vue.pagesize;
 				vue.arrayDataPage = {};
 				for(var i=start;i<parseInt(vue.pagesize)*vue.pageCurrent;i++){
-					vue.arrayDataPage[i]=vue.arrayData[i];
+					if(vue.arrayData[i]){
+						vue.arrayDataPage[i]=vue.arrayData[i];
+					}
 				};
 				var page = ".page_"+vue.pageCurrent;
 				$(page).addClass("active");
@@ -114,10 +117,26 @@ $(function(){
 					this.changeShow();
 				}
 			},
-			createRole:function(){
-//				alert("点击了创建角色按钮");
-//				$("#create_role").modal("show");
-				location.href = "createRole.html";
+			showAddRight:function(){
+				//				alert("点击了创建角色按钮");
+				$("#add_right").modal("show");
+//				location.href = "createRole.html";
+			},
+			//修改表格列显示
+			show_modifyTd:function(event){
+				var target = event.target || window.event.srcElement;
+				$("#modify_right").modal("show");
+				modal.selectTd.name= $(target).closest("tr").find("td").eq(1).text();
+				modal.selectTd.id= $(target).closest("tr").find("td").eq(0).text();
+				modal.selectTd.slug= $(target).closest("tr").find("td").eq(2).text();
+				modal.selectTd.description= $(target).closest("tr").find("td").eq(3).text();
+				modal.selectTd.model= $(target).closest("tr").find("td").eq(4).text();
+			},
+			//显示删除弹出框
+			show_delTd:function(){
+				var target = event.target || window.event.srcElement;
+				$("#del_right").modal("show");
+				modal.selectTd.id= $(target).closest("tr").find("td").eq(0).text();
 			},
 			//个人资料按钮事件
 			personalProfile:function(){
@@ -150,4 +169,67 @@ $(function(){
 		vue.changeShow();
 		console.log(parseInt(vue.pagesize)+1);
 	});
+	//创建moadal框的vue模型
+	var modal = new Vue({
+		el:".operate_pop",
+		data:{
+			//表头信息
+			tablesTitle:[],
+			//选中列
+			selectTd:{name:''},
+			name:123
+		},
+		methods:{
+			addRight:function(){
+				var data = $(".add_right").serialize();
+				common.ajax(Api.url.CREATERIGHT,"post",data,function(res){
+					console.log(res);
+					//添加成功
+					if(res.status==1){
+						console.log(res);
+						location.reload();
+					}
+					//弹出提示，2秒钟
+					common.tips(res.message,2000);
+				});
+			},
+			//修改权限
+			modRight:function(){
+				var url = Api.url.MODIFYRIGHT+ this.selectTd.id;
+				var data = $(".modify_right").serialize();
+				common.ajax(url,"post",data,function(res){
+					if(res.status == 1){
+						location.reload();
+					}
+					//弹出提示，2秒钟
+					common.tips(res.message,2000);
+				});
+//				var data =
+			},
+			//删除权限
+			delRight:function(){
+				var url = Api.url.DELRIGHT + this.selectTd.id;
+				common.ajax(url,"post",{},function(res){
+					if(res.status == 1){
+						location.reload();
+					}
+					//弹出提示，2秒钟
+					common.tips(res.message,2000);
+				})
+			}
+		}
+	});
+	//获取创建表头
+	modal.tablesTitle = vue.tablesTitle;
+/*	var data = {
+		name:"添加测试1",
+		slug:"yy1",
+		description:"无描述1",
+		model:"测试模型1"
+	}
+////	name(名称),slug(标签),description(描述),model(模型)"
+//	common.ajax(Api.url.CREATERIGHT,"post",data,function(res){
+//		console.log(res);
+//		common.tips(res.message,2000);
+//	})*/
 })
