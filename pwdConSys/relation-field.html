@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>关联字段</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="scripts/lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="scripts/lib/linearicons/style.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/log.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="img/logo.png">
+	<script src="scripts/lib/jquery/jquery.min.js"></script>
+	<script src="scripts/lib/vue.js"></script>
+	<script src="scripts/common/api.js"></script>
+	<script src="scripts/common/common.js"></script>
+	<script src="scripts/relationField.js"></script>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href="index.html"><img src="img/logo.png" width="44" height="44" alt="Klorofil Logo" class="img-responsive logo"></a>
+				<span>密码管理系统</span>
+			</div>
+			<div class="container-fluid">
+				<div id="navbar-menu">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/user.png" class="img-circle" alt="Avatar"> <span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<ul class="dropdown-menu">
+								<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>
+								<li v-on:click="loginOut"><a href="#"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+						<li v-for="item in menus">
+							<a v-bind:href="'#'+item.menuName" data-toggle="collapse" class="collapsed"><i v-bind:class="item.icon"></i> <span>{{item.title}}</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div :id="item.menuName" class="collapse ">
+								<ul class="nav" v-for="children in item.children">
+									<li><a :href="children.link" class="">{{children.title}}</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="shrink" v-on:click="shrink">
+				&lt;
+			</div>
+		</div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- OVERVIEW -->
+					<div class="panel panel-headline">
+						<div class="panel-heading">
+							<h3 class="panel-title">字段关联</h3>
+						</div>
+					</div>
+					<div class="panel panel-headline">
+						<div class="metric2">
+							<a class="btn btn-default" onclick="history.go(-1)"><span class="glyphicon glyphicon-chevron-left color-primary"></span>返回上一页</a>
+						</div>
+						<!--<form class="form-horizontal create_role">-->
+							<div class="table_wrap">
+								<div class="panel panel-info">
+									<!-- Default panel contents -->
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-6 selected_fields">
+												<div class="panel panel-default">
+													<div class="panel-heading"><h3>已关联字段预览</h3></div>
+													<div class="panel-body">
+														<form action="" class="form-horizontal" id="selected_fields_form">
+															<!--<div class="form-group">
+																<label class="col-sm-12 mb_5">
+																	<b class="color-red">*</b>姓名 </label>
+																<div class="col-sm-10">
+																	<input type="text" class="form-control" name="name" placeholder="name" readonly="readonly" data-is-necessary="1">
+																</div>
+																<div class="col-sm-2">
+																	<span class="f_delete">
+																		<i class="glyphicon glyphicon-trash"></i>
+																	</span>
+																</div>
+															</div>-->
+															<div class="form-group" v-for="item in relationField">
+																<label class="col-sm-12 mb_5">
+																	{{item.comment}} </label>
+																<div class="col-sm-10">
+																	<input type="text" class="form-control" name="position" placeholder="position" readonly="readonly" data-is-necessary="0">
+																</div>
+																<div class="col-sm-2" v-on:click="removeField($event)" v-bind:data-id="item.id">
+																		<span class="f_delete">
+																			<i class="glyphicon glyphicon-trash"></i>
+																		</span>
+																</div>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6 extend_fields">
+												<div class="panel panel-default">
+													<div class="panel-heading"><h3>字段扩展</h3></div>
+													<div class="panel-body">
+														<!--<div class="row mb_10 ef_title">
+															<div class="col-sm-12">
+																<h3><i class="glyphicon glyphicon-user"></i>客户基本信息字段</h3>
+															</div>
+														</div>-->
+														<div class="row mb_10 line_b base_fields">
+															<div class="btn-item mb_10 col-sm-4" v-for="item in allFields" v-bind:data-id="item.id">
+																<button type="button" class="btn btn-sm btn-block" data-name="unit_area" v-on:click="addRelationField($event)">{{item.comment}}</button>
+																<!--<span class="b_delete glyphicon glyphicon-remove"></span>-->
+															</div>
+															<!--<div class="btn-item mb_10 has-selected active col-sm-4">
+																<button type="button" class="btn btn-sm btn-info btn-block" data-name="name">姓名</button>
+																&lt;!&ndash;<span class="b_delete glyphicon glyphicon-remove"></span>&ndash;&gt;
+															</div>-->
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--<div class="panel-primary">
+								<div class="panel-heading">用户基本信息</div>
+								<div class="panel-body">
+									<div class="form-group">
+										<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>用户名：</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control name" name="name">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>密码：</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control password" name="password">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>邮箱：</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control email" name="email">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>中文名称：</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control name_cn" name="name_cn">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-primary">
+								<div class="panel-heading">角色分配</div>
+								<div class="panel-body">
+									<div class="input-group">
+										  <span class="input-group-role" v-for="item in roleList">
+											<input type="radio" name="id" v-bind:value="item.id">
+											  <label>{{item.name}}</label>
+										  </span>
+									</div>
+								</div>
+							</div>
+							<div class="panel-primary">
+								<div class="panel-heading">权限配置</div>
+								<div class="panel-body">
+									<div class="input-group">
+										  <span class="input-group-role" v-for="item in permissions">
+											<input type="checkbox" name="id" v-bind:value="item.id">
+											  <label>{{item.name}}</label>
+										  </span>
+									</div>
+								</div>
+							</div>
+							<div class="form-footer">
+								&lt;!&ndash;<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>&ndash;&gt;
+								<button type="button" class="btn btn-primary btn-create btn-lg" v-on:click="addUser">创建</button>
+							</div>-->
+						<!--</form>-->
+					</div>
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<!-- END MAIN -->
+		<div class="clearfix"></div>
+		<!--添加用户成功-->
+		<div class="modal fade" id="add_field_suc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">关联字段</h4>
+					</div>
+					<div class="modal-body">
+						<p>关联字段成功</p>
+					</div>
+					<div class="modal-footer text-center">
+						<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+						<button type="button" class="btn btn-primary btn-save" v-on:click="refresh">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--添加用户成功-->
+		<div class="modal fade" id="remove_field_suc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">取消字段关联</h4>
+					</div>
+					<div class="modal-body">
+						<p>取消字段关联成功</p>
+					</div>
+					<div class="modal-footer text-center">
+						<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+						<button type="button" class="btn btn-primary btn-save" v-on:click="refresh">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<script src="scripts/lib/jquery/jquery.min.js"></script>
+	<script src="scripts/lib/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
