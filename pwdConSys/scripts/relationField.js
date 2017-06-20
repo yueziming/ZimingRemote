@@ -17,32 +17,43 @@ $(function(){
 
 		},
 		model:function(){
-			//获取所有用户字段
-			common.ajax(Api.url.GETALLFIELD,"get",{},function(res){
-				console.log(res);
-				if(res.status ===1 && res.data && res.data.column){
-					for(var i=0;i<res.data.column.length;i++){
-						var obj = {};
-						obj.id=res.data.column[i].id;
-						obj.comment = res.data.column[i].comment;
-						vue.allFields.push(obj);
-					}
-				}
+            //获取用户关联字段
+            common.ajax(Api.url.GETRELATIONFIELD,"get",{},function(res){
+                console.log(res);
+                if(res.status ===1 && res.data && res.data.column){
+                    for(var i=0;i<res.data.column.length;i++){
+                        var obj = {};
+                        obj.id=res.data.column[i].id;
+                        obj.comment = res.data.column[i].comment;
+                        vue.relationField.push(obj);
+                    }
+                    //获取所有用户字段
+                    common.ajax(Api.url.GETALLFIELD,"get",{},function(res){
+                        console.log(res);
+                        if(res.status ===1 && res.data && res.data.column){
+                            for(var i=0;i<res.data.column.length;i++){
+                                var obj = {};
+                                obj.id=res.data.column[i].id;
+                                obj.comment = res.data.column[i].comment;
+                                obj.isSelected = 0;
+                                for(var j=0;j<vue.relationField.length;j++){
+                                    if(obj.id == vue.relationField[j].id){
+                                        obj.isSelected = 1;
+                                    }
+                                }
+                                vue.allFields.push(obj);
+                            }
+                        }
+                        else{
+                        	common.tips("获取字段失败",1500);
+						}
 //				relationField.model(res);
-			});
-			common.ajax(Api.url.GETRELATIONFIELD,"get",{},function(res){
-				console.log(res);
-				if(res.status ===1 && res.data && res.data.column){
-					for(var i=0;i<res.data.column.length;i++){
-						var obj = {};
-						obj.id=res.data.column[i].id;
-						obj.comment = res.data.column[i].comment;
-						vue.relationField.push(obj);
-					}
+                    });
+                }else{
+                	common.tips("获取用户关联字段失败",1500);
 				}
-				//				relationField.model(res);
-			});
-			//获取用户关联字段
+                //				relationField.model(res);
+            });
 			var vue=new Vue({
 				el:"#wrapper",
 				data:{
@@ -61,12 +72,12 @@ $(function(){
 					//增加关联字段
 					addRelationField:function(event){
 						var target = event.target || window.event.srcElement;
-						//如果之前被选中，则显示取消选中样式
+						/*//如果之前被选中，则显示取消选中样式
 						if($(target).hasClass("btn-primary")){
 							$(target).removeClass("btn-primary");
 						}else{
 							$(target).addClass("btn-primary");
-						}
+						}*/
 						vue.addId= $(target).closest("div").attr("data-id");
 						var data = {id:vue.addId};
 						var url=Api.url.ADDRELATIONFIELD+''+vue.addId;
@@ -100,15 +111,16 @@ $(function(){
 					personalProfile:function(){
 						alert("点击了个人资料按钮");
 					},
-					//退出按钮
-					loginOut:function(){
-						//销毁令牌
-						common.destoryLocalstorage("access_token");
-						//销毁用户名
-						common.destoryLocalstorage("username");
-						//跳转到登陆页面
-						location.href = "login.html";
-					},
+                    //退出按钮
+                    loginOut:function(){
+                        //销毁令牌
+                        common.destoryLocalstorage("access_token");
+                        //销毁用户名
+                        common.destoryLocalstorage("username");
+                        common.destoryLocalstorage("left_menu");
+                        //跳转到登陆页面
+                        location.href = "login.html";
+                    },
 					//点击收缩
 					shrink:function(){
 						if($("#wrapper .sidebar").css("left") == '0px'){

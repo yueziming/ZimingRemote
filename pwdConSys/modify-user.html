@@ -34,7 +34,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/user.png" class="img-circle" alt="Avatar"> <span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>
+								<!--<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>-->
 								<li v-on:click="loginOut"><a href="#"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>
 							</ul>
 						</li>
@@ -81,19 +81,19 @@
 								<div class="panel-heading">用户基本信息</div>
 								<div class="panel-body">
 									<div class="form-group">
-										<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>用户名：</label>
+										<label class="col-sm-2 control-label"><b style="vertical-align: middle;"></b>用户名：</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control name" name="name" v-model="selectedInformation.name" disabled>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>邮箱：</label>
+										<label class="col-sm-2 control-label"><b style="vertical-align: middle;"></b>邮箱：</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control email" name="email" v-model="selectedInformation.email">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>中文名称：</label>
+										<label class="col-sm-2 control-label"><b style="vertical-align: middle;"></b>中文名称：</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control name_cn" name="name_cn" v-model="selectedInformation.name_cn">
 										</div>
@@ -141,7 +141,7 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">
 							<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title">删除角色</h4>
+						<h4 class="modal-title">修改角色</h4>
 					</div>
 					<div class="modal-body">
 						<p>修改角色成功</p>
@@ -156,7 +156,7 @@
 	</div>
 	<!-- END WRAPPER -->
 	<!-- Javascript -->
-	<script src="scripts/lib/jquery/jquery.min.js"></script>
+	<!--<script src="scripts/lib/jquery/jquery.min.js"></script>-->
 	<script src="scripts/lib/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

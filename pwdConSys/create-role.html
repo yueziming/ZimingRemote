@@ -34,7 +34,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/user.png" class="img-circle" alt="Avatar"> <span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>
+								<!--<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>-->
 								<li v-on:click="loginOut"><a href="#"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>
 							</ul>
 						</li>
@@ -81,25 +81,25 @@
 								<div class="panel-heading">角色基本信息</div>
 									<div class="panel-body">
 										<div class="form-group">
-											<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>名称：</label>
+											<label class="col-sm-2 control-label"><b style="vertical-align: middle;"></b>名称：</label>
 											<div class="col-sm-10">
 												<input type="text" class="form-control name" name="name">
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>标签：</label>
+											<label class="col-sm-2 control-label"><b style="vertical-align: middle;"></b>标签：</label>
 											<div class="col-sm-10">
 												<input type="text" class="form-control slug" name="slug">
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>描述：</label>
+											<label class="col-sm-2 control-label"><b style="vertical-align: middle;"></b>描述：</label>
 											<div class="col-sm-10">
 												<input type="text" class="form-control description" name="description">
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label  color-red"><b style="vertical-align: middle;"></b>等级：</label>
+											<label class="col-sm-2 control-label"><b style="vertical-align: middle;"></b>等级：</label>
 											<div class="col-sm-10">
 												<input type="text" class="form-control level" name="level">
 											</div>
@@ -108,14 +108,26 @@
 							</div>
 							<div class="panel-primary">
 								<div class="panel-heading">权限配置</div>
-									<div class="panel-body">
+									<div class="panel-body" id="permission">
 										<div class="input-group">
-										  <span class="input-group-role" v-for="item in roleList">
+										  <span class="input-group-role" v-for="item in permissionList">
 											<input type="checkbox" name="id" v-bind:value="item.id">
 											  <label>{{item.name}}</label>
 										  </span>
 										</div>
 									</div>
+							</div>
+							<div class="panel-primary">
+								<div class="panel-heading">字段分配&nbsp;&nbsp;<small>*红色的为加密字段</small></div>
+								<div class="panel-body">
+									<div class="input-group" id="fields">
+										  <span class="input-group-role" v-for="item in fieldList">
+											<input type="checkbox" name="id" v-bind:value="item.id">
+											  <label v-if="item.isEncrypt" class="color-red">{{item.comment}}</label>
+											  <label v-else>{{item.comment}}</label>
+										  </span>
+									</div>
+								</div>
 							</div>
 							<div class="form-footer">
 								<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->

@@ -28,7 +28,7 @@ $(function(){
 					console.log(XMLHttpRequest.status);
 					console.log(XMLHttpRequest.readyState);
 					console.log(textStatus);
-					console.log("网络异常");
+					common.tips("网络异常,获取数据失败",1500);
 					common.ajaxLoadingStop();
 				}
 			})
@@ -77,8 +77,51 @@ $(function(){
 			setTimeout(function(){
 				$("#toast").remove();
 			},time);
-		}
-	}
+		},
+        /**
+		 * 验证表达式
+         */
+        //验证用户名
+        validateuserName:function (username) {
+			var reg = /(^[A-Za-z0-9]{6,16}$)|(^[\u4E00-\u9FA5]{2,8}$)/;
+			var res = reg.test(username);
+			return res;
+        },
+        //校验密码：只能输入6-20个字母、数字、下划线
+        isPasswd:function(s)
+		{
+			var patrn=/^(\w){6,20}$/;
+			if (!patrn.exec(s)) return false
+			return true
+		},
+		//非空判断
+		isEmpty:function (s) {
+			if(s == ''){
+				return false;
+			}else{
+				return true;
+			}
+        },
+		//邮箱验证
+		validateEmail:function (email) {
+			var reg =/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
+            var res = reg.test(email);
+            return res;
+        },
+        //是否为正整数｛
+		isInteger:function (num) {
+        	// var num = parseInt(s);
+			var reg = /^[0-9]\d*$/;
+            var res = reg.test(num);
+            return res;
+        },
+        //是否为英文和数字
+		isEnglishAndNum:function (s) {
+			var reg = /^[A-Za-z0-9]+$/;
+            var res = reg.test(s);
+            return res;
+        }
+}
 	window.common = common;
 	common.init();
 })

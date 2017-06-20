@@ -1,8 +1,8 @@
 /**
- * Created by 1658 on 2017-6-16.
+ * Created by yueziming on 2017-6-16.
  */
 $(function(){
-    var field = {
+    var companney = {
         init:function(){
             //首先判断是否有令牌，没有的话直接返回到登陆页面
             if(!common.getData("access_token")){
@@ -10,20 +10,15 @@ $(function(){
             }
             this.model();
         },
-        basefield:{
-
-        },
         ajax:function(){
 
         },
         model:function(){
-            //获取字段内容列表
-            common.ajax(Api.url.GETALLFIELD,"get",{},function(res){
-                if(res.status ===1 && res.data){
-                    console.log(res);
+            common.ajax(Api.url.COMPANNEYLIST,"get",{},function(res){
+                if(res.status === 1 && res.data){
                     vue.showPage(res);
                 }
-            });
+            })
             var vue = new Vue({
                 el: "#wrapper",
                 data: {
@@ -49,35 +44,28 @@ $(function(){
                     //分页显示数据
                     arrayDataPage:	[],
                     //表头信息
-                    // tablesTitle:[],
+                    tablesTitle:[],
                     //左侧导航按钮菜单
                     menus:[],
-                    //选中列
-                    selectTd:{name:''},
-                    //设置用户字段id
-                    columnId:[],
-                    //创建内容label
-                    createContentComment:[]
+                    //记录选中列
+                    selectTd:{"name":""}
                 },
                 methods: {
                     //分页数据
                     showPage:function(res){
+                        console.log(res);
                         //储存关键字
-                        for(var k in res.data.column[0]){
+                        for(var k in res.data[0]){
                             vue.key[k] = k;
                         }
                         //储存获取到的数据
-                        for(var i=0;i<res.data.column.length;i++){
+                        for(var i=0;i<res.data.length;i++){
                             var obj ={};
-                            obj.id = res.data.column[i].id;
-                            obj.comment = res.data.column[i].comment;
-                            obj.name = res.data.column[i].name;
-                            obj.isEncrypt = res.data.column[i]["is_encrypt"]?"是":"否";
-                            obj.createTime = res.data.column[i]['created_at'];
-                            obj.updateTime = res.data.column[i]['updated_at'];
-                            /*for(var k in vue.key){
-                                obj[vue.key[k]] = res.data.column[i][vue.key[k]];
-                            }*/
+                            for(var k in vue.key){
+                                // obj[vue.key[k]] = res.data[i][vue.key[k]];
+                                obj.id = res.data[i].id;
+                                obj.name = res.data[i].name;
+                            }
                             vue.arrayData.push(obj);
                         }
                         for(var i=0;i<vue.pagesize;i++){
@@ -85,6 +73,10 @@ $(function(){
                                 vue.arrayDataPage[i]=vue.arrayData[i];
                             }
                         }
+                        /*//获取表头
+                        for(var i=0;i<res.headerTitle.length;i++){
+                            vue.tablesTitle.push(res.headerTitle[i]);
+                        }*/
                         $(".pagination li").eq(1).addClass("active");
                         //获取分页按钮数
                         vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);
@@ -104,9 +96,7 @@ $(function(){
                         var start = (vue.pageCurrent -1)*vue.pagesize;
                         vue.arrayDataPage = {};
                         for(var i=start;i<parseInt(vue.pagesize)*vue.pageCurrent;i++){
-                            if(vue.arrayData[i]){
-                                vue.arrayDataPage[i]=vue.arrayData[i];
-                            }
+                            vue.arrayDataPage[i]=vue.arrayData[i];
                         };
                         var page = ".page_"+vue.pageCurrent;
                         $(page).addClass("active");
@@ -131,93 +121,79 @@ $(function(){
                             this.changeShow();
                         }
                     },
-                    //显示添加字段弹框
-                    showAddField:function(){
-                        $("#add_field").modal("show");
+                    addCompanney:function(){
+                        // location.href = "create-role.html";
+                        $("#add_companney").modal("show");
                     },
-                    //添加自定义字段
-                    addField:function(){
-                        //判断字段非空
-                        if(!common.isEmpty($("#add_field .name").val())){
-                            common.tips("名称不能为空",1500);
+                    //添加成功
+                    addCompanneySuc:function () {
+                        //判断公司名非空
+                        if(!common.isEmpty($(".add_companney .name").val())){
+                            common.tips("公司名不能为空",1500);
                             return false;
                         }
-                        var data = {
-                            name:$("#add_field .name").val(),
-                            is_encrypt:$("#add_field input[type='checkbox']:checked").length
+                        var data={
+                            name:$("#add_companney .name").val()
                         };
-                        common.ajax(Api.url.ADDFIELD,"post",data,function(res){
-                            if(res.status == 1){
-//								location.reload();
-                                $("#add_field").modal("hide");
+                        common.ajax(Api.url.ADDCOMPANNEY,"post",data,function (res) {
+                            if(res.status ===1){
+                                location.reload();
                             }
-                            //弹出提示，2秒钟
-                            common.tips(res.message,2000);
-                            location.reload();
-                        })
+                        });
+                        common.tips(res.message,1500);
                     },
-                    //跳转到关联字段控制页面
-                    toRelationPage:function(){
-                        location.href = "relation-field.html";
-                    },
-                    //显示修改内容信息
+                    //修改表格列显示
                     show_modifyTd:function(event){
                         var target = event.target || window.event.srcElement;
                         vue.selectTd.id= $(target).closest("tr").find("td").eq(0).text();
                         vue.selectTd.name= $(target).closest("tr").find("td").eq(1).text();
-                        var url =Api.url.GEIEDITFIELD+''+vue.selectTd.id;
-                        //获取编辑内容信息
-                        // vue.getModifyContent = [];
-                        common.ajax(url,"get",{},function(res){
-                            console.log(res);
-                            if(res.status === 1){
-                                $("#modify_field").modal("show");
-                            }
-                            else{
-                                common.tips(res.message);
-                            }
-                        });
+                        $("#modify_companney").modal("show");
+                        // location.href = "modify-role.html?id="+vue.selectTd.id;
                     },
-                    //显示列表字段控制弹框
-                    showListFieldControl:function () {
-                        $("#list_menu").modal("show");
-                    },
-                    //修改字段
-                    modField:function(){
-                        //判断字段非空
-                        if(!common.isEmpty($("#modify_field .name").val())){
-                            common.tips("名称不能为空",1500);
+                    //修改公司
+                    modCompanney:function () {
+                        //判断公司名非空
+                        if(!common.isEmpty($(".modify_companney .name").val())){
+                            common.tips("公司名不能为空",1500);
                             return false;
                         }
                         var data = {
-                            name:$("#modify_field .name").val()
+                            name:$("#modify_companney .name").val()
                         };
-                        var url =Api.url.MODIFYFIELD+''+vue.selectTd.id;
-                        common.ajax(url,"post",data,function(res){
-                            console.log(res);
+                        var url = Api.url.MODIFYCOMPANNEY + this.selectTd.id;
+                        common.ajax(url,"post",data,function (res) {
                             if(res.status === 1){
                                 location.reload();
                             }
-                            common.tips(res.message);
-                        })
-                    },
-                    //删除字段
-                    delField:function(event){
-                        var url = Api.url.DELFIELD + this.selectTd.id;
-                        common.ajax(url,"post",{},function(res){
-                            // console.log(res);
-                            if(res.status == 1){
-                                location.reload();
-                            }
-                            //弹出提示，2秒钟
-                            common.tips(res.message,2000);
+                            common.tips(res.message,1500);
                         })
                     },
                     //显示删除弹出框
                     show_delTd:function(){
                         var target = event.target || window.event.srcElement;
-                        $("#del_field").modal("show");
+                        $("#del_companney").modal("show");
                         vue.selectTd.id= $(target).closest("tr").find("td").eq(0).text();
+                    },
+                    //删除公司
+                    delCompanney:function(){
+                        var url = Api.url.DELCOMPANNEY + this.selectTd.id;
+                        common.ajax(url,"post",{},function(res){
+                            if(res.status == 1){
+//								$("#del_role").modal("hide");
+                                location.reload();
+                                /*for(var i in vue.arrayDataPage){
+                                 if(vue.arrayDataPage[i].id == vue.selectTd.id){
+                                 vue.arrayDataPage.splice(i,1);
+                                 vue.arrayData.splice(vue.arrayDataPage[i],1);
+                                 }
+                                 }
+                                 vue.changeShow();*/
+                            }else{
+                                common.tips(res.message,1000);
+                            }
+                            //弹出提示，2秒钟
+                            common.tips(res.message,2000);
+                        })
                     },
                     //个人资料按钮事件
                     personalProfile:function(){
@@ -248,17 +224,17 @@ $(function(){
                     }
                 }
             });
-            //设置用户名
-            vue.username = common.getData("username");
-            //获取左侧按钮
-            vue.menus = common.getData("left_menu");
             vue.$watch("pagesize", function (value) {
                 //获取分页按钮数
                 vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);
                 vue.changeShow();
                 console.log(parseInt(vue.pagesize)+1);
             });
+            //获取用户名
+            vue.username = common.getData("username");
+            //获取左侧按钮
+            vue.menus = common.getData("left_menu");
         }
     }
-    field.init();
+    companney.init();
 })

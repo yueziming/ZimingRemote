@@ -4,41 +4,103 @@
 
 var Api = {
 	//url基础配置
-//	baseUrl:'https://192.168.0.70:8443/',
+	baseUrl:'http://192.168.0.70:1234/api',
 	url:{
 		//登录接口
-		LOGIN:'https://192.168.0.70:8443/oauth/token',
+		LOGIN:'http://192.168.0.70:1234/oauth/token',
 		//左侧菜单接口
-		LEFTMENU:'https://192.168.0.70:8443/api/menu-index',
+		LEFTMENU:'http://192.168.0.70:1234/api/menu-index',
 		//主页表格接口
-		INDEXTABLE:'https://192.168.0.70:8443/content/ajaxindex/',
+		INDEXTABLE:'http://192.168.0.70:1234/content/ajaxindex/',
 		//权限管理页面接口
-		RIGHTMANAGEMENT:"https://192.168.0.70:8443/api/permission-index",
+		RIGHTMANAGEMENT:"http://192.168.0.70:1234/api/permission-index",
 		//创建权限字段接口
-		PERMISSION:"https://192.168.0.70:8443/api/permission-create",
+		PERMISSION:"http://192.168.0.70:1234/api/permission-create",
 		//创建权限接口
-		CREATERIGHT:"https://192.168.0.70:8443/api/permission-store",
+		CREATERIGHT:"http://192.168.0.70:1234/api/permission-store",
 		//编辑权限接口
-		EDITRIGHT:"https://192.168.0.70:8443/api/permission-edit-",
+		EDITRIGHT:"http://192.168.0.70:1234/api/permission-edit-",
 		//修改权限接口
-		MODIFYRIGHT:"https://192.168.0.70:8443/api/permission-update-",
+		MODIFYRIGHT:"http://192.168.0.70:1234/api/permission-update-",
 		//删除权限接口
-		DELRIGHT:"https://192.168.0.70:8443/api/permission-delete-",
+		DELRIGHT:"http://192.168.0.70:1234/api/permission-delete-",
 		//用户管理界面接口
-		USERINFO:"https://192.168.0.70:8443/api/user-index",
+		USERINFO:"http://192.168.0.70:1234/api/user-index",
+		//获取添加用户信息接口
+		CREATEUSERINFO:"http://192.168.0.70:1234/api/user-create",
 		//添加用户接口
-		ADDUSER:"https://192.168.0.70:8443/api/user-store",
+		ADDUSER:"http://192.168.0.70:1234/api/user-store",
 		//角色列表页面接口
-		ROLELIST:"https://192.168.0.70:8443/api/role-index",
+		ROLELIST:"http://192.168.0.70:1234/api/role-index",
 		//获取角色接口
-		GETROLE:"https://192.168.0.70:8443/api/role-create",
+		GETROLE:"http://192.168.0.70:1234/api/role-create",
 		//创建角色接口
-		CREATEROLE:"https://192.168.0.70:8443/api/role-store",
+		CREATEROLE:"http://192.168.0.70:1234/api/role-store",
+		//删除角色接口
+		DELROLE:"http://192.168.0.70:1234/api/role-delete-",
+		//获取编辑角色字段接口
+		GETEDITROLE:"http://192.168.0.70:1234/api/role-edit-",
+		//修改角色接口
+		MODIFYROLE:"http://192.168.0.70:1234/api/role-update-",
+		//删除用户接口
+		DELUSER:"http://192.168.0.70:1234/api/user-delete-",
+		//获取修改用户信息接口
+		GETMODIFYUSER:"http://192.168.0.70:1234/api/user-edit-",
+		//修改用户接口
+		MODIFYUSER:"http://192.168.0.70:1234/api/user-update-",
+		//添加自定义字段
+		ADDFIELD:"http://192.168.0.70:1234/api/column-store",
+		//获取所有字段
+		GETALLFIELD:"http://192.168.0.70:1234/api/column-index",
+		//获取用户关联字段
+		GETRELATIONFIELD:"http://192.168.0.70:1234/api/column-list",
+		//添加用户关联字段
+		ADDRELATIONFIELD:"http://192.168.0.70:1234/api/column-add-",
+		//移除用户关联字段
+		REMOVERELATIONFIELD:"http://192.168.0.70:1234/api/column-user-delete-",
+		//获取用户添加关联字段
+		GETSHOWRELATIONFIELD:"http://192.168.0.70:1234/api/column-list",
+		//获取用户选择的显示关联字段
+		GETSELECTEDRELATIONFIELD:"http://192.168.0.70:1234/api/column-view",
+		//设置用户需要显示的字段
+		SETSHOWRELATIONFIELD:"http://192.168.0.70:1234/api/column-view-reset",
+		//获取内容列表
+		GETCONTENTLIST:"http://192.168.0.70:1234/api/access-index",
+		//创建内容列表
+		CREATECONTENT:"http://192.168.0.70:1234/api/access-create",
+		//下载EXCEL内容
+		DOWNLOADEXCEL:"http://192.168.0.70:1234/api/access-excel-download",
+		//添加内容接口
+		ADDCONTENT:"http://192.168.0.70:1234/api/access-store",
+		//编辑内容获取信息接口
+		GETEDITCONTENT:"http://192.168.0.70:1234/api/access-edit-",
+		//修改内容接口
+		MODIFYCONTENT:"http://192.168.0.70:1234/api/access-update-",
+		//删除内容接口
+		DELCONTENT:"http://192.168.0.70:1234/api/access-delete-",
+		//导入EXCEL接口
+		IMPORTEXCEL:"http://192.168.0.70:1234/api/access-excel-import",
+        //获取编辑字段接口
+        GEIEDITFIELD:"http://192.168.0.70:1234/api/column-edit-",
+        //修改字段接口
+        MODIFYFIELD:"http://192.168.0.70:1234/api/column-update-",
+        //删除字段接口
+        DELFIELD:"http://192.168.0.70:1234/api/column-delete-",
+        //公司列表接口
+        COMPANNEYLIST:"http://192.168.0.70:1234/api/company-index",
+        //添加公司接口
+        ADDCOMPANNEY:"http://192.168.0.70:1234/api/company-store",
+        //修改公司接口
+        MODIFYCOMPANNEY:"http://192.168.0.70:1234/api/company-update-",
+        //删除公司接口
+        DELCOMPANNEY:"http://192.168.0.70:1234/api/company-delete-"
 	},
 	localJson:{
 		//左侧菜单接口
 		LEFTMENU:'json/menu.json',
 		//主页表格接口
-		INDEXTABLE:'json/test.json'
+		INDEXTABLE:'json/test.json',
+		//获取
+        GETCONTENTLIST:'json/access-index.json'
 	}
 };

@@ -43,24 +43,30 @@ $(function(){
 					//用户名
 					username:'',
 					//权限列表
-					roleRights:[],
+                    permissionList:[],
+					//字段列表
+                    fieldList:[],
 					//原有的选择的列表
 					selectedRight:[],
 					//选中的修改的用户的信息
-					selectedInformation:{}
+					selectedInformation:{},
+					//选中的字段
+					selectedFields:[]
 				},
 				methods:{
 					personalProfile:function (){
 
 					},
-					loginOut:function(){
-						//销毁令牌
-						common.destoryLocalstorage("access_token");
-						//销毁用户名
-						common.destoryLocalstorage("username");
-						//跳转到登陆页面
-						location.href = "login.html";
-					},
+                    //退出按钮
+                    loginOut:function(){
+                        //销毁令牌
+                        common.destoryLocalstorage("access_token");
+                        //销毁用户名
+                        common.destoryLocalstorage("username");
+                        common.destoryLocalstorage("left_menu");
+                        //跳转到登陆页面
+                        location.href = "login.html";
+                    },
 					shrink:function(){
 						if($("#wrapper .sidebar").css("left") == '0px'){
 							//$("#wrapper .sidebar").css("left","-260px");
@@ -76,17 +82,37 @@ $(function(){
 						}
 					},
 					modifyRole:function(){
-						var id =[];
-						$.each($("input[type='checkbox']:checked"),function(){
-							id.push($(this).val());
-						});
+                        var id =[];
+                        var fieldsId = [];
+                        //判断名称或标签非空
+                        if(!common.isEmpty($(".name").val()) || !common.isEmpty($(".slug").val())){
+                            common.tips("名称或标签不能为空",1500);
+                            return false;
+                        }
+                        //判断标签只能为英文或数字
+                        if(!common.isEnglishAndNum($(".slug").val())){
+                            common.tips("标签只能为英文或数字",1500);
+                            return false;
+                        }
+                        //等级只能为正整数
+                        if(!common.isInteger($(".level").val())){
+                            common.tips("等级只能为正整数",1500);
+                            return false;
+                        }
+                        $.each($("#permission").find("input[type='checkbox']:checked"),function(){
+                            id.push($(this).val());
+                        });
+                        $.each($("#fields").find("input[type='checkbox']:checked"),function(){
+                            fieldsId.push($(this).val());
+                        });
 						//						var data = $(".create_role").serialize();
 						var data = {
 							name:$(".name").val(),
 							slug:$(".slug").val(),
 							description:$(".description").val(),
 							level:$(".level").val(),
-							permission:id
+							permission:id,
+                            column:fieldsId
 						};
 						common.ajax(getRole.base.sendUrl,"post",data,function(res){
 							if(res.status ===1){
@@ -118,15 +144,34 @@ $(function(){
 					var obj = {};
 					obj.id = res.data.permission[i].id;
 					obj.name = res.data.permission[i].name;
-					vue.roleRights.push(obj);
+					vue.permissionList.push(obj);
+				}
+				//获取选择角色已经选择的字段
+				for(var i=0;i<res.data.roleColumn.length;i++){
+					vue.selectedFields[i] = res.data.roleColumn[i].column_id;
+				}
+				//显示角色字段
+				for(var j=0;j<res.data.column.length;j++){
+                    var obj = {};
+                    obj.id = res.data.column[j].id;
+                    obj.comment = res.data.column[j].comment;
+                    obj.isEncrypt = res.data.column[j]["is_encrypt"];
+                    obj.isSelected = 0;
+                    for(var k=0;k<vue.selectedFields.length;k++){
+                    	if(vue.selectedFields[k] == obj.id){
+                    		obj.isSelected = 1;
+                    		break;
+						}
+					}
+                    vue.fieldList.push(obj);
 				}
 			}
 			console.log(res);
 			//渲染完成，选中被选择权限
 			vue.$nextTick(function(){
-				for(var i=0;i<vue.roleRights.length;i++){
+				for(var i=0;i<vue.permissionList.length;i++){
 					for(var j=0;j<vue.selectedRight.length;j++){
-						if(vue.selectedRight[j] == vue.roleRights[i].id){
+						if(vue.selectedRight[j] == vue.permissionList[i].id){
 							$("input[type='checkbox']").eq(i).attr("checked",true);
 						}
 					}

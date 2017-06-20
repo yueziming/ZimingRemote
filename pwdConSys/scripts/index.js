@@ -5,6 +5,10 @@ $(function(){
 	var indexPage = {
 		//初始化
 		init:function(){
+			//首先判断是否有令牌，没有的话直接返回到登陆页面
+			if(!common.getData("access_token")){
+				location.href = "login.html";
+			}
 			var data={};
 			//获取按钮数据
 			this.ajax(Api.url.LEFTMENU,"get",data);
@@ -31,9 +35,16 @@ $(function(){
 					personalProfile:function (){
 
 					},
-					loginOut:function(){
-
-					},
+                    //退出按钮
+                    loginOut:function(){
+                        //销毁令牌
+                        common.destoryLocalstorage("access_token");
+                        //销毁用户名
+                        common.destoryLocalstorage("username");
+                        common.destoryLocalstorage("left_menu");
+                        //跳转到登陆页面
+                        location.href = "login.html";
+                    },
 					shrink:function(){
 						if($("#wrapper .sidebar").css("left") == '0px'){
 							//$("#wrapper .sidebar").css("left","-260px");
@@ -52,22 +63,26 @@ $(function(){
 			});
 			//获取左侧导航按钮
 			for(var i=0;i<res.navbarMenu.length;i++){
-				var menuObj = {};
-				var childrens = [];
+				if(res.navbarMenu[i] != ''){
+                    var menuObj = {};
+                    var childrens = [];
 //				menuObj.id = res.navbarMenu[i].id;
-				menuObj.title = res.navbarMenu[i].title;
-				menuObj.icon = res.navbarMenu[i].icon;
-				menuObj.menuName = res.navbarMenu[i].menuName;
-				for(var j=0;j<res.navbarMenu[i].children.length;j++){
-					var children = {};
-					children.id = res.navbarMenu[i].children[j].id;
-					children.title = res.navbarMenu[i].children[j].title;
-					children.link = res.navbarMenu[i].children[j].link;
-					childrens.push(children);
-					//						menuObj.children = children;
+                    menuObj.title = res.navbarMenu[i].title;
+                    menuObj.icon = res.navbarMenu[i].icon;
+                    menuObj.menuName = res.navbarMenu[i].menuName;
+                    if(res.navbarMenu[i].children){
+                        for(var j=0;j<res.navbarMenu[i].children.length;j++){
+                            var children = {};
+                            children.id = res.navbarMenu[i].children[j].id;
+                            children.title = res.navbarMenu[i].children[j].title;
+                            children.link = res.navbarMenu[i].children[j].link;
+                            childrens.push(children);
+                            //						menuObj.children = children;
+                        }
+                        menuObj.children = childrens;
+                    }
+                    vue.menus.push(menuObj);
 				}
-				menuObj.children = childrens;
-				vue.menus.push(menuObj);
 			}
 			//存储左侧导航按钮到本地存储
 			common.setData("left_menu",vue.menus);

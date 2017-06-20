@@ -145,7 +145,7 @@
 	text-align:center;
 	color:#d8d395;
 	width:400px;
-	height:30px;
+	/*height:30px;*/
 	line-height: 20px;
 	position:fixed;
 	border-radius: 6px;
@@ -179,4 +179,98 @@
 }
 .input-group-role label{
 	width:200px;
+}
+.mr20{
+	margin-right: 20px;
+}
+.ml4{
+	margin-left: 4px;
+}
+.pt7{
+	padding-top: 7px!important;
+}
+.f_delete:hover{
+	color:#f00;
+	cursor: pointer;
+}
+.f_delete i{
+	margin-top: 10px;
+}
+.btn-item{
+	margin-bottom: 10px;
+}
+.metric2{
+	margin: 20px;
+}
+.checkbox_list{
+	float:left;
+	width:25%;
+	/*margin-right: 10px;*/
+}
+.relation_btn_list{
+	width:25%;
+	padding:2px;
+	box-sizing: border-box;
+	float: left;
+}
+.relation_btn_list button{
+	display: inline-block;
+	width:100%;
+	margin-bottom: 4px;
+}
+.ui-sortable{
+	width:100%;
+}
+.role_content_list{
+	display: inline-block!important;
+	/*float:right!important;*/
+	width:50%;
+}
+.custom_list{
+	color:#fff;
+}
+.custom_list:hover{
+	color:#fff;
+}
+label,button{
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space: nowrap;
+}
+.right_details{
+	position: fixed;
+	width:30%;
+	height:90%;
+	top:80px;
+	/*right:0px;*/
+	right:-30%;
+	background-color: #f9f9f9;
+	z-index: 999;
+	overflow:hidden;
+	overflow:scroll;
+}
+.right_details .close_btn{
+	position: absolute;
+	top:20px;
+	right:20px;
+	cursor:pointer;
+}
+.right_details .title{
+	padding: 20px;
+	color: #000;
+	font-size: 18px;
+}
+.right_details table{
+	width:92%;
+	color: #000;
+	margin:0px 20px;
+}
+.right_details td{
+	font-size: 12px;
+	color: #000;
+	padding:2px!important;
+}
+.modal.fade{
+	overflow: hidden;
+	overflow: scroll;
 }

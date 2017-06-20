@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="apple-touch-icon" sizes="76x76" href="img/log.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="img/logo.png">
+	<link rel="stylesheet" href="css/login.css">
 	<script src="scripts/lib/jquery/jquery.min.js"></script>
 	<script src="scripts/login.js"></script>
 	<script src="scripts/lib/vue.js"></script>
@@ -19,13 +20,18 @@
 </head>
 
 <body>
+<!--<div class="header2">
+	<canvas id="canvas"></canvas>
+</div>-->
 	<!-- WRAPPER -->
 	<div id="wrapper" class="login_background_img">
-		<div class="vertical-align-wrap">
+			<div class="vertical-align-wrap">
 			<div class="vertical-align-middle">
-				<div class="logo text-center"><img src="img/loginLogo.png" width="600px" height="60px" alt="gimmay Logo"></div>
+				<!--<div class="logo text-center"><img src="img/loginLogo.png" width="600px" height="60px" alt="gimmay Logo"></div>-->
 				<div class="auth-box lockscreen clearfix">
 					<div class="content">
+						<!--<h2>瑞辉医疗密码管理系统</h2>-->
+						<div class="logo text-center"><img src="img/loginLogo.png" width="340px" height="40px" alt="gimmay Logo"></div>
 						<div class="header">
 							<p class="lead">账户登录</p>
 						</div>
@@ -34,7 +40,7 @@
 								<input type="email" class="form-control" id="signin-email" placeholder="用户名" v-model="username">
 							</div>
 							<div class="form-group">
-								<input type="password" class="form-control" id="signin-password" placeholder="密码" v-model="password">
+								<input type="password" class="form-control" id="signin-password" placeholder="密码" v-model="password" @keyup.enter="login">
 							</div>
 							<div class="form-group clearfix">
 								<label class="fancy-checkbox element-left">
@@ -51,8 +57,132 @@
 				</div>
 			</div>
 		</div>
+		<!--登录不成功-->
+		<div class="modal fade" id="login_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">警告</h4>
+					</div>
+					<div class="modal-body">
+						<p>用户名或密码不合法:<br>用户名：不能包含特殊字符且在7个纯汉字或16个英文字母之内<br>密码：只能输入6-20个字母、数字、下划线</p>
+					</div>
+					<div class="modal-footer text-center">
+						<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+						<button type="button" class="btn btn-primary btn-save" v-on:click="exitLoginDialog">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- END WRAPPER -->
 </body>
+<script src="scripts/lib/bootstrap/js/bootstrap.min.js"></script>
+<script>
+/*    //宇宙特效
+    "use strict";
+    var canvas = document.getElementById('canvas'),
+        ctx = canvas.getContext('2d'),
+        w = canvas.width = window.innerWidth,
+        h = canvas.height = window.innerHeight,
 
+        hue = 217,
+        stars = [],
+        count = 0,
+        maxStars = 1300;//星星数量
+
+    var canvas2 = document.createElement('canvas'),
+        ctx2 = canvas2.getContext('2d');
+    canvas2.width = 100;
+    canvas2.height = 100;
+    var half = canvas2.width / 2,
+        gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half);
+    gradient2.addColorStop(0.025, '#CCC');
+    gradient2.addColorStop(0.1, 'hsl(' + hue + ', 61%, 33%)');
+    gradient2.addColorStop(0.25, 'hsl(' + hue + ', 64%, 6%)');
+    gradient2.addColorStop(1, 'transparent');
+
+    ctx2.fillStyle = gradient2;
+    ctx2.beginPath();
+    ctx2.arc(half, half, half, 0, Math.PI * 2);
+    ctx2.fill();
+
+    // End cache
+
+    function random(min, max) {
+        if (arguments.length < 2) {
+            max = min;
+            min = 0;
+        }
+
+        if (min > max) {
+            var hold = max;
+            max = min;
+            min = hold;
+        }
+
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function maxOrbit(x, y) {
+        var max = Math.max(x, y),
+            diameter = Math.round(Math.sqrt(max * max + max * max));
+        return diameter / 2;
+        //星星移动范围，值越大范围越小，
+    }
+
+    var Star = function() {
+
+        this.orbitRadius = random(maxOrbit(w, h));
+        this.radius = random(60, this.orbitRadius) / 8;
+        //星星大小
+        this.orbitX = w / 2;
+        this.orbitY = h / 2;
+        this.timePassed = random(0, maxStars);
+        this.speed = random(this.orbitRadius) / 50000;
+        //星星移动速度
+        this.alpha = random(2, 10) / 10;
+
+        count++;
+        stars[count] = this;
+    }
+
+    Star.prototype.draw = function() {
+        var x = Math.sin(this.timePassed) * this.orbitRadius + this.orbitX,
+            y = Math.cos(this.timePassed) * this.orbitRadius + this.orbitY,
+            twinkle = random(10);
+
+        if (twinkle === 1 && this.alpha > 0) {
+            this.alpha -= 0.05;
+        } else if (twinkle === 2 && this.alpha < 1) {
+            this.alpha += 0.05;
+        }
+
+        ctx.globalAlpha = this.alpha;
+        ctx.drawImage(canvas2, x - this.radius / 2, y - this.radius / 2, this.radius, this.radius);
+        this.timePassed += this.speed;
+    }
+
+    for (var i = 0; i < maxStars; i++) {
+        new Star();
+    }
+
+    function animation() {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalAlpha = 0.5; //尾巴
+        ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 2)';
+        ctx.fillRect(0, 0, w, h)
+
+        ctx.globalCompositeOperation = 'lighter';
+        for (var i = 1, l = stars.length; i < l; i++) {
+            stars[i].draw();
+        };
+
+        window.requestAnimationFrame(animation);
+    }
+
+    animation();*/
+</script>
 </html>
