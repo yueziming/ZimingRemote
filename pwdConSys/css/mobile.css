@@ -1,0 +1,49 @@
+#wrapper .main{
+    width:100%;
+}
+#wrapper #sidebar-nav, #wrapper .main{
+    padding-top: 80px;
+}
+.panel .panel-heading{
+    padding: 0px 8px;
+}
+body{
+    font-size: 14px;
+}
+.main-content{
+    padding: 28px 0px;
+}
+.mr8{
+    margin-right: 8px;
+}
+.container-fluid{
+    padding: 0px 10px;
+}
+@media screen and (max-width: 767px){
+    .navbar-nav > li > a span:not(.badge), .navbar-nav > li > a .icon-submenu{
+        display: inline-block;
+    }
+    .navbar{
+        min-height: 30px;
+    }
+    .navbar-nav > li > a{
+        padding: 10px 20px;
+    }
+    #wrapper #sidebar-nav, #wrapper .main{
+        padding-top: 20px;
+    }
+    .panel{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 16px;
+    }
+    .search-container{
+        margin-top: 10px;
+    }
+    .content-header-row{
+        padding: 8px 10px;
+    }
+    .hidden{
+        display: none;
+    }
+}
