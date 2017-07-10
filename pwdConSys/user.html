@@ -32,9 +32,10 @@
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/user.png" class="img-circle" alt="Avatar"> <span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<!--<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>-->
+								<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
 								<li v-on:click="loginOut"><a href="#"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>
 							</ul>
 						</li>
@@ -72,7 +73,7 @@
 					<!-- OVERVIEW -->
 					<div class="panel panel-headline">
 						<div class="panel-heading">
-							<div class="pull-right">
+							<div class="pull-right" v-if="controller.userCreate">
 								<button class="btn btn-primary" v-on:click="toAddUser"><i class="glyphicon glyphicon-plus"></i>添加用户</button>
 							</div>
 							<h3 class="panel-title">用户管理</h3>
@@ -112,19 +113,19 @@
 								</div>
 							</div>-->
 						</div>
-						<table class="table table-striped table-bordered data_table">
+						<table class="table table-striped table-bordered data_table" v-if="controller.userList">
 							<thead>
 								<tr>
 									<th v-for="item in tablesTitle">{{item}}</th>
-									<th class="operate">操作</th>
+									<th class="operate" v-if="controller.userEdit || controller.userDelete">操作</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr v-for="item in arrayDataPage">
 									<td v-for="column in item">{{column}}</td>
-									<td>
-										<button class="btn btn-danger btn-xs" v-on:click="modUser($event)">修改</button>
-										<button class="btn btn-danger btn-xs" v-on:click="show_delTd($event)">删除</button>
+									<td v-if="controller.userEdit || controller.userDelete">
+										<button class="btn btn-danger btn-xs" v-on:click="modUser($event)" v-if="controller.userEdit">修改</button>
+										<button class="btn btn-danger btn-xs" v-on:click="show_delTd($event)" v-if="controller.userDelete">删除</button>
 									</td>
 								</tr>
 							</tbody>
@@ -176,6 +177,72 @@
 						<div class="modal-footer text-center">
 							<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
 							<button type="button" class="btn btn-primary btn-save" v-on:click="delUserSuccess">确定</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--修改密码-->
+			<div class="modal fade" id="modify_password" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title">修改密码</h4>
+						</div>
+						<form class="form-horizontal modify_field" role="form" method="post" action="">
+							<!--<input type="hidden" name="requestType" value="create">-->
+							<div class="modal-body">
+								<!--<div class="form-group" v-for="item in tablesTitle">
+                                    <label class="col-sm-3 control-label  color-red  "><b style="vertical-align: middle;"></b>{{item}}：</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control name" name="name">
+                                    </div>
+                                </div>-->
+								<div class="form-group">
+									<!--<input class="id hide" v-model="selectTd.id">-->
+									<label class="col-sm-3 control-label"><b style="vertical-align: middle;"></b>原密码：</label>
+									<div class="col-sm-9">
+										<input type="password" class="form-control password" name="password" v-model="oldPassword">
+									</div>
+								</div>
+								<div class="form-group">
+									<!--<input class="id hide" v-model="selectTd.id">-->
+									<label class="col-sm-3 control-label"><b style="vertical-align: middle;"></b>新密码：</label>
+									<div class="col-sm-9">
+										<input type="password" class="form-control password" name="password" v-model="password">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><b style="vertical-align: middle;"></b>确认密码：</label>
+									<div class="col-sm-9">
+										<input type="password" class="form-control ensurePassword" name="ensurePassword" v-model="ensurePassword">
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								<button type="button" class="btn btn-primary btn-save" v-on:click="modPassword">修改</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!--修改密码成功-->
+			<div class="modal fade" id="modify_password_suc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title">恭喜</h4>
+						</div>
+						<div class="modal-body">
+							<p>密码修改成功,点击确定重新登录</p>
+						</div>
+						<div class="modal-footer text-center">
+							<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+							<button type="button" class="btn btn-primary btn-save" v-on:click="toLogin">确定</button>
 						</div>
 					</div>
 				</div>

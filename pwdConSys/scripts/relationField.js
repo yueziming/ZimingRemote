@@ -117,7 +117,10 @@ $(function(){
                         common.destoryLocalstorage("access_token");
                         //销毁用户名
                         common.destoryLocalstorage("username");
+                        //销毁左侧导航按钮
                         common.destoryLocalstorage("left_menu");
+                        //销毁控制权限组
+                        common.destoryLocalstorage("controller");
                         //跳转到登陆页面
                         location.href = "login.html";
                     },

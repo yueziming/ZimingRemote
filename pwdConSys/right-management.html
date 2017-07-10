@@ -72,7 +72,7 @@
 					<!-- OVERVIEW -->
 					<div class="panel panel-headline">
 						<div class="panel-heading">
-							<div class="pull-right">
+							<div class="pull-right" v-if="controller.permissionCreate">
 								<button class="btn btn-primary" v-on:click="showAddRight"><i class="glyphicon glyphicon-plus"></i>添加权限</button>
 							</div>
 							<h3 class="panel-title">权限管理</h3>
@@ -112,19 +112,19 @@
 								</div>
 							</div>-->
 						</div>
-						<table class="table table-striped table-bordered data_table">
+						<table class="table table-striped table-bordered data_table" v-if="controller.permissionList">
 							<thead>
 								<tr>
 									<th v-for="item in tablesTitle">{{item}}</th>
-									<th class="operate">操作</th>
+									<th class="operate" v-if="controller.permissionEdit || controller.permissionDelete">操作</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr v-for="item in arrayDataPage">
 									<td v-for="column in item">{{column}}</td>
-									<td>
-										<button class="btn btn-danger btn-xs" v-on:click="show_modifyTd($event)">修改</button>
-										<button class="btn btn-danger btn-xs" v-on:click="show_delTd($event)">删除</button>
+									<td v-if="controller.permissionEdit || controller.permissionDelete">
+										<button class="btn btn-danger btn-xs" v-on:click="show_modifyTd($event)" v-if="controller.permissionEdit">修改</button>
+										<button class="btn btn-danger btn-xs" v-on:click="show_delTd($event)" v-if="controller.permissionDelete">删除</button>
 									</td>
 								</tr>
 							</tbody>

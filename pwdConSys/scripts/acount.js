@@ -90,7 +90,7 @@ $(function(){
 //				common.tips(res.message,1500);
 			});
 			//公司列表
-			common.ajax(Api.url.COMPANNEYLIST,"get",{},function (res) {
+			common.ajax(Api.url.COMPANYSEARCH,"get",{},function (res) {
                 if(res.status === 1 && res.data){
 					// console.log(res);
 					for(var i=0;i<res.data.length;i++){
@@ -122,7 +122,7 @@ $(function(){
 					//总项目数
 					totalCount: 200,
 					//分页数
-					pageCount: 20,
+					pageCount: 8,
 					//当前页面
 					pageCurrent: 1,
 					//分页大小
@@ -168,7 +168,16 @@ $(function(){
 					//搜索内容
                     searchText:'',
 					//上传文件地址
-					uploadFileAddress:''
+					uploadFileAddress:'',
+					//获取权限控制列表
+                    controller:{},
+                    password:'',
+                    ensurePassword:'',
+                    oldPassword:'',
+					//拖放旧元素
+					dragOldElement:null,
+					//拖动新元素
+					dragNewElement:null
 				},
 				methods: {
 					//分页数据
@@ -287,9 +296,12 @@ $(function(){
 					},
 					//设置显示字段
 					saveShowField:function(){
-						$.each($("input[type='checkbox']:checked"),function(){
+						/*$.each($("input[type='checkbox']:checked"),function(){
 							vue.columnId.push(parseInt($(this).attr("data-id")));
-						});
+						});*/
+						for(var i=0;i<$("#field_list .relation_btn_list").length;i++){
+                            vue.columnId.push(parseInt($("#field_list .relation_btn_list").eq(i).find("button").attr("data-id")));
+						}
 						var data = {
 							column_id:vue.columnId
 						}
@@ -358,6 +370,7 @@ $(function(){
 					//显示关联字段更改
 					changeShowField:function (event) {
                         var target = event.target || window.event.srcElement;
+                        // vue.selectedRelationFields = [];
                         if($(target).attr("data-checked") == 0){
                             $(target).attr("data-checked",1);
                             var obj = {};
@@ -381,6 +394,29 @@ $(function(){
                         // input[type='checkbox']:checked
                         // alert("点击更改");
                     },
+                    drop:function (event) {
+						console.log("拖放结束");
+						this.dragNewElement = event.target;
+                        var id = $(this.dragOldElement).attr("data-id");
+                        var text = $(this.dragOldElement).text();
+                        $(this.dragOldElement).text($(this.dragNewElement).text());
+                        $(this.dragOldElement).attr("data-id",$(this.dragNewElement).attr("data-id"));
+                        $(this.dragNewElement).text(text);
+                        $(this.dragNewElement).attr("data-id",id);
+						// console.log(event.target);
+						// console.log(event.target.attr("data-id"));
+						// console.log(event.target.text());
+                    },
+                    allowDrop:function (event) {
+                        event.preventDefault();
+						// console.log("拖放结束");
+                    },
+                    drag:function (event) {
+						console.log("开始拖放");
+						this.dragOldElement = event.target;
+                        // console.log(event.currentTarget);
+						// console.log("start");
+                    },
 					//搜索
                     search:function () {
 						var data = {
@@ -403,6 +439,9 @@ $(function(){
 								 console.log("内容列表为：");
 								 console.log(res);*/
                             }
+                            else{
+                            	common.tips(res.message,1500);
+							}
                         });
                     },
 					//显示修改内容信息
@@ -476,6 +515,28 @@ $(function(){
 					},
 					//显示列表字段控制弹框
                     showListFieldControl:function () {
+                        vue.showRelationFields = [];
+                        //获取用户显示关联字段
+                        common.ajax(Api.url.GETALLFIELD,"get",{},function(res){
+                            if(res.status ===1 && res.data && res.data.column){
+                                for(var i=0;i<res.data.column.length;i++){
+                                    var obj = {};
+                                    obj.id = res.data.column[i].id;
+                                    obj.comment = res.data.column[i].comment;
+                                    obj.name = res.data.column[i].name;
+                                    obj.isEncrypt = res.data.column[i]["is_encrypt"];
+                                    obj.isSelected = 0;
+                                    for(var j=0;j<vue.selectedRelationFields.length;j++){
+                                        if(obj.id == vue.selectedRelationFields[j].id){
+                                            obj.isSelected = 1;
+                                            break;
+                                        }
+                                    }
+                                    vue.showRelationFields.push(obj);
+                                }
+//					console.log(res);
+                            }
+                        });
 						$("#list_menu").modal("show");
                     },
 					//修改内容
@@ -499,7 +560,7 @@ $(function(){
 							data.data[$("#modify_content").find("input[type = text]").eq(i).attr("name")]=obj;
 							//							roleIdPath.push(obj2);
 						}
-                        data.company = $("#modify_content select").val();
+                        data.company = $("#modify_content select").val() || '';
 						//						data.push(roleIdPath);
 						var url =Api.url.MODIFYCONTENT+''+vue.selectTd.id;
 						common.ajax(url,"post",data,function(res){
@@ -618,6 +679,10 @@ $(function(){
 						$("#del_content").modal("show");
 						vue.selectTd.id= $(target).closest("tr").find("td").eq(0).text();
 					},
+					//刷新页面
+					refresh:function () {
+						location.reload();
+                    },
 					/*//删除用户
 					delUser:function(){
 						var url = Api.url.DELUSER + this.selectTd.id;
@@ -633,20 +698,46 @@ $(function(){
 					delUserSuccess:function(){
 						//						location.reload();
 					},*/
-					//个人资料按钮事件
-					personalProfile:function(){
-						alert("点击了个人资料按钮");
-					},
-					//退出按钮
-					loginOut:function(){
-						//销毁令牌
-						common.destoryLocalstorage("access_token");
-						//销毁用户名
-						common.destoryLocalstorage("username");
-						common.destoryLocalstorage("left_menu");
-						//跳转到登陆页面
-						location.href = "login.html";
-					},
+					//修改密码
+                    personalProfile:function (){
+                        $("#modify_password").modal("show");
+                        // vue.loginOut();
+                    },
+                    modPassword:function () {
+                        if(vue.password != vue.ensurePassword){
+                            common.tips("两次密码输入不一致!",2000);
+                        }else{
+                            var data = {
+                                newPassword:vue.ensurePassword,
+                                oldPassword:vue.oldPassword
+                            };
+                            common.ajax(Api.url.MODIFYPASSWORD,"post",data,function (res) {
+                                if(res && res.status && res.status == '1'){
+                                    console.log(res);
+                                    $("#modify_password").modal("hide");
+                                    $("#modify_password_suc").modal("show");
+                                    // vue.loginOut();
+                                }
+                                common.tips(res.message,2000);
+                            })
+                        }
+                    },
+                    toLogin:function () {
+                        vue.loginOut();
+                    },
+                    //退出按钮
+                    loginOut:function(){
+                        //销毁令牌
+                        common.destoryLocalstorage("access_token");
+                        //销毁用户名
+                        common.destoryLocalstorage("username");
+                        //销毁左侧导航按钮
+                        common.destoryLocalstorage("left_menu");
+                        //销毁控制权限组
+                        common.destoryLocalstorage("controller");
+                        //跳转到登陆页面
+                        location.href = "login.html";
+                    },
 					//点击收缩
 					shrink:function(){
 						if($("#wrapper .sidebar").css("left") == '0px'){
@@ -662,13 +753,16 @@ $(function(){
 					}
 				}
 			});
-			//设置用户名
-			vue.username = common.getData("username");
-			//获取左侧按钮
-			vue.menus = common.getData("left_menu");
+            //设置用户名
+            vue.username = common.getData("username");
+            //获取左侧按钮
+            vue.menus = common.getData("left_menu");
+            //获取控制列表
+            vue.controller = common.getData("controller");
 			vue.$watch("pagesize", function (value) {
 				//获取分页按钮数
 				vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);
+                vue.pageCurrent = 1;
 				vue.changeShow();
 				console.log(parseInt(vue.pagesize)+1);
 			});

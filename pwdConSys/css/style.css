@@ -1,4 +1,11 @@
-/*loading加载动画样式*/
+﻿/*loading加载动画样式*/
+#loading{
+    position: fixed;
+    width:200px;
+    height: 200px;
+    top:calc(50% - 100px);
+    left:calc(50% - 100px);
+}
 .spinner {
 	margin: 100px auto;
 	width: 80px;
@@ -12,7 +19,7 @@
 .container1 > div, .container2 > div, .container3 > div {
 	width: 6px;
 	height: 6px;
-	background-color: #333;
+	background-color: #112dc1;
 
 	border-radius: 100%;
 	position: absolute;
@@ -273,4 +280,68 @@ label,button{
 .modal.fade{
 	overflow: hidden;
 	overflow: scroll;
+}/*
+label{
+	margin-bottom: 0px;
+}*/
+.input-group{
+	width:100%;
 }
+.color-yellow{
+	color:#ffe18a;
+}
+.threeControl{
+	cursor: pointer;
+}
+
+/*屏蔽默认媒体查询样式*/
+/*
+@media screen and (max-width: 767px) {
+	.panel.panel-headline .panel-heading .panel-title{
+		font-size: 16px;
+	}
+	.panel .panel-heading button i{
+		font-size: 12px;
+	}
+	.btn{
+		font-size: 12px;
+		padding: 2px 4px;
+	}
+	#wrapper #sidebar-nav {
+		padding-top: 0px; }
+	#wrapper .main {
+		padding-top: 40px; }
+	.shrink {
+		display: none; }
+	#sidebar-nav.sidebar{
+		position: fixed;
+		width:100%;
+		height:60px;
+		bottom:0px;
+	}
+	.panel{
+		margin-bottom: 10px;
+	}
+	#wrapper .sidebar{
+		left:0px;
+	}
+	.lnr-chevron-left:before{
+		content:''
+	}
+	.navbar-nav > li > a span:not(.badge),.navbar-nav > li > a .icon-submenu{
+		display: inline-block;
+	}
+	.nav li:not(.dropdown){
+		width:50%;
+		float: left;
+		border: 1px solid #999;
+	}
+	#contentControl{
+		position: absolute;
+	}
+	#contentControl .nav li:not{
+		position: fixed;
+		width: 100%;
+		bottom: 40px;
+	}
+}*/

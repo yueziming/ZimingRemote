@@ -31,7 +31,7 @@ $(function(){
                     //总项目数
                     totalCount: 200,
                     //分页数
-                    pageCount: 20,
+                    pageCount: 8,
                     //当前页面
                     pageCurrent: 1,
                     //分页大小
@@ -57,7 +57,9 @@ $(function(){
                     //设置用户字段id
                     columnId:[],
                     //创建内容label
-                    createContentComment:[]
+                    createContentComment:[],
+                    //权限控制列表
+                    controller:{}
                 },
                 methods: {
                     //分页数据
@@ -165,6 +167,7 @@ $(function(){
                         var target = event.target || window.event.srcElement;
                         vue.selectTd.id= $(target).closest("tr").find("td").eq(0).text();
                         vue.selectTd.name= $(target).closest("tr").find("td").eq(1).text();
+                        vue.selectTd.isEncrypt = $(target).closest("tr").find("td").eq(3).text() == "是"? 1:0;
                         var url =Api.url.GEIEDITFIELD+''+vue.selectTd.id;
                         //获取编辑内容信息
                         // vue.getModifyContent = [];
@@ -190,7 +193,9 @@ $(function(){
                             return false;
                         }
                         var data = {
-                            name:$("#modify_field .name").val()
+                            name:$("#modify_field .name").val(),
+                            is_encrypt:$("#modify_field input[type='checkbox']:checked").length
+                            // is_encrypt:vue.selectTd
                         };
                         var url =Api.url.MODIFYFIELD+''+vue.selectTd.id;
                         common.ajax(url,"post",data,function(res){
@@ -229,7 +234,10 @@ $(function(){
                         common.destoryLocalstorage("access_token");
                         //销毁用户名
                         common.destoryLocalstorage("username");
+                        //销毁左侧导航按钮
                         common.destoryLocalstorage("left_menu");
+                        //销毁控制权限组
+                        common.destoryLocalstorage("controller");
                         //跳转到登陆页面
                         location.href = "login.html";
                     },
@@ -252,9 +260,12 @@ $(function(){
             vue.username = common.getData("username");
             //获取左侧按钮
             vue.menus = common.getData("left_menu");
+            //获取控制列表
+            vue.controller = common.getData("controller");
             vue.$watch("pagesize", function (value) {
                 //获取分页按钮数
                 vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);
+                vue.pageCurrent = 1;
                 vue.changeShow();
                 console.log(parseInt(vue.pagesize)+1);
             });

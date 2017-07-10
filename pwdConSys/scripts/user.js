@@ -26,7 +26,7 @@ $(function(){
 					//总项目数
 					totalCount: 200,
 					//分页数
-					pageCount: 20,
+					pageCount: 8,
 					//当前页面
 					pageCurrent: 1,
 					//分页大小
@@ -49,6 +49,11 @@ $(function(){
 					menus:[],
 					//选中列
 					selectTd:{name:''},
+					//控制列表
+                    controller:{},
+                    password:'',
+                    ensurePassword:'',
+                    oldPassword:''
 				},
 				methods: {
 					//分页数据
@@ -160,17 +165,43 @@ $(function(){
 					delUserSuccess:function(){
 //						location.reload();
 					},
-					//个人资料按钮事件
-					personalProfile:function(){
-						alert("点击了个人资料按钮");
-					},
+                    //修改密码
+                    personalProfile:function (){
+                        $("#modify_password").modal("show");
+                        // vue.loginOut();
+                    },
+                    modPassword:function () {
+                        if(vue.password != vue.ensurePassword){
+                            common.tips("两次密码输入不一致!",2000);
+                        }else{
+                            var data = {
+                                newPassword:vue.ensurePassword,
+                                oldPassword:vue.oldPassword
+                            };
+                            common.ajax(Api.url.MODIFYPASSWORD,"post",data,function (res) {
+                                if(res && res.status && res.status == '1'){
+                                    console.log(res);
+                                    $("#modify_password").modal("hide");
+                                    $("#modify_password_suc").modal("show");
+                                    // vue.loginOut();
+                                }
+                                common.tips(res.message,2000);
+                            })
+                        }
+                    },
+                    toLogin:function () {
+                        vue.loginOut();
+                    },
                     //退出按钮
                     loginOut:function(){
                         //销毁令牌
                         common.destoryLocalstorage("access_token");
                         //销毁用户名
                         common.destoryLocalstorage("username");
+                        //销毁左侧导航按钮
                         common.destoryLocalstorage("left_menu");
+                        //销毁控制权限组
+                        common.destoryLocalstorage("controller");
                         //跳转到登陆页面
                         location.href = "login.html";
                     },
@@ -189,13 +220,16 @@ $(function(){
 					}
 				}
 			});
-			//设置用户名
-			vue.username = common.getData("username");
-			//获取左侧按钮
-			vue.menus = common.getData("left_menu");
+            //设置用户名
+            vue.username = common.getData("username");
+            //获取左侧按钮
+            vue.menus = common.getData("left_menu");
+            //获取控制列表
+            vue.controller = common.getData("controller");
 			vue.$watch("pagesize", function (value) {
 				//获取分页按钮数
 				vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);
+                vue.pageCurrent = 1;
 				vue.changeShow();
 				console.log(parseInt(vue.pagesize)+1);
 			});

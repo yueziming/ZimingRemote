@@ -33,11 +33,13 @@
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/user.png" class="img-circle" alt="Avatar">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<!--<img src="img/user.png" class="img-circle" alt="Avatar">-->
 								<span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<!--<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i>
 									<span>个人资料</span></a></li>-->
+								<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
 								<li v-on:click="loginOut"><a href="#"><i class="lnr lnr-exit"></i> <span>退出</span></a>
 								</li>
 							</ul>
@@ -77,6 +79,11 @@
 					<!-- OVERVIEW -->
 					<div class="panel panel-headline">
 						<div class="panel-heading">
+							<div class="pull-right">
+								<button class="btn btn-primary ml4" type="button" v-on:click="showListFieldControl">
+									<span class="custom_list"><i class="glyphicon glyphicon-list"></i>&nbsp;显示字段控制</span>
+								</button>
+							</div>
 							<div class="pull-right"v-if="controller.accessInformationCreate">
 								<button class="btn btn-primary ml4" type="button" v-on:click="showCreateContent">
 									<span class="custom_list" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i>&nbsp;创建内容</span>
@@ -107,9 +114,9 @@
 					</div>
 					<div class="panel panel-headline">
 						<div class="row content-header-row">
-							<div class="col-md-6 metric" style="margin-left: 16px;padding-top:26px">
+							<div class=".col-lg-6 col-md-8 metric" style="margin-left: 16px;padding-top:26px">
 								<label>公司名称：</label>
-								<select class="mr20" style="position: relative;top: -10px;">
+								<select class="mr20" style="position: relative;top: -10px;height: 24px;">
 									<option value="0">所有公司</option>
 									<option v-for="item in companneyList" v-bind:value="item.id">{{item.name}}</option>
 									<!--<option value="1">瑞辉医疗</option>
@@ -117,7 +124,7 @@
 									<option value="3">瑞辉医疗</option>-->
 								</select>
 								<label>字段名称：</label>
-								<select style="position: relative;top: -10px;">
+								<select style="position: relative;top: -10px;height: 24px;">
 									<option value="0">全局查找</option>
 									<option v-for="item in showRelationFields" v-if="item.isEncrypt" class="color-red" v-bind:value="item.name">{{item.comment}}</option>
 									<option v-for="item in showRelationFields" v-if="item.isEncrypt == 0" v-bind:value="item.name">{{item.comment}}</option>
@@ -126,7 +133,7 @@
 									<option value="3">字段4</option>-->
 								</select>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-3 pull-left">
 								<div class="input-group search-container pull-right">
 									<input type="text" class="form-control" placeholder="Search for..." v-model="searchText">
 									<span class="input-group-btn">
@@ -134,17 +141,17 @@
                                   </span>
 								</div>
 							</div>
-							<div class="col-md-2 pull-right metric mr20">
-								<button class="btn btn-primary pull-right" type="button" v-on:click="showListFieldControl" v-if="controller.columnList">
-									<span class="custom_list"><i class="glyphicon glyphicon-list"></i>&nbsp;列表字段控制</span>
-								</button>
+							<!--<div class="col-md-2 pull-right metric mr20">-->
+								<!--<button class="btn btn-primary pull-right" type="button" v-on:click="showListFieldControl">-->
+									<!--<span class="custom_list"><i class="glyphicon glyphicon-list"></i>&nbsp;显示字段控制</span>-->
+								<!--</button>-->
 								<!--<div class="input-group search-container pull-right">
 									<input type="text" class="form-control" placeholder="Search for...">
 									  <span class="input-group-btn">
 										<button class="btn btn-default" type="button">搜索</button>
 									  </span>
 								</div>&lt;!&ndash; /input-group &ndash;&gt;-->
-							</div>
+							<!--</div>-->
 							<!--<div class="col-md-2 pull-right metric">
 								<button class="btn btn-primary pull-right" type="button">
 									<span class="custom_list" data-toggle="modal" data-target="#add_content"><i class="glyphicon glyphicon-plus"></i>&nbsp;创建内容</span>
@@ -173,13 +180,14 @@
 							</div>-->
 						</div>
 						<div class="row content-header-row">
-							<div class="col-md-3">
+							<div class="col-md-12">
 								<div class="metric" style="padding-top: 0px;">
-									显示 <select v-model="pagesize">
+									显示 <select style="height: 24px;" v-model="pagesize">
 									<option>5</option>
 									<option>10</option>
 									<option>15</option>
 									<option>20</option>
+									<option>50</option>
 								</select> 项结果
 								</div>
 							</div>
@@ -495,7 +503,7 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">×</span></button>
-						<h4 class="modal-title" id="myModalLabel">自定义列表字段</h4>
+						<h4 class="modal-title" id="myModalLabel">显示列表字段控制</h4>
 					</div>
 					<div class="modal-body">
 						<form action="" class="form-horizontal">
@@ -523,19 +531,85 @@
 										<div class="title mb_10"><h5>原来已选择字段：</h5></div>
 										<div class="btn-group ui-sortable" id="field_list" role="group">
 											<div class="relation_btn_list" v-for="item in selectedRelationFields">
-												<button class="btn btn-primary" v-bind:data-id="item.id">{{item.name}}</button>
+												<button class="btn btn-primary" v-bind:data-id="item.id" @drop='drop($event)' @dragstart='drag($event)' @dragover='allowDrop($event)' draggable="true" type="button">{{item.name}}</button>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<input type="hidden" name="requestType" value="reset_and_order_column">
-							<input type="hidden" name="__hash__" value="fb9f13b75e3850fa1589175c92d4a72c_784ce3d4372e035d383c9e8b6f0eac89">
+							<!--<input type="hidden" name="requestType" value="reset_and_order_column">-->
+							<!--<input type="hidden" name="__hash__" value="fb9f13b75e3850fa1589175c92d4a72c_784ce3d4372e035d383c9e8b6f0eac89">-->
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" v-on:click="refresh">取消</button>
 						<button type="button" class="btn btn-primary btn-save" v-on:click="saveShowField">更改</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--修改密码-->
+		<div class="modal fade" id="modify_password" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">修改密码</h4>
+					</div>
+					<form class="form-horizontal modify_field" role="form" method="post" action="">
+						<!--<input type="hidden" name="requestType" value="create">-->
+						<div class="modal-body">
+							<!--<div class="form-group" v-for="item in tablesTitle">
+                                <label class="col-sm-3 control-label  color-red  "><b style="vertical-align: middle;"></b>{{item}}：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control name" name="name">
+                                </div>
+                            </div>-->
+							<div class="form-group">
+								<!--<input class="id hide" v-model="selectTd.id">-->
+								<label class="col-sm-3 control-label"><b style="vertical-align: middle;"></b>原密码：</label>
+								<div class="col-sm-9">
+									<input type="password" class="form-control password" name="password" v-model="oldPassword">
+								</div>
+							</div>
+							<div class="form-group">
+								<!--<input class="id hide" v-model="selectTd.id">-->
+								<label class="col-sm-3 control-label"><b style="vertical-align: middle;"></b>新密码：</label>
+								<div class="col-sm-9">
+									<input type="password" class="form-control password" name="password" v-model="password">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label"><b style="vertical-align: middle;"></b>确认密码：</label>
+								<div class="col-sm-9">
+									<input type="password" class="form-control ensurePassword" name="ensurePassword" v-model="ensurePassword">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-primary btn-save" v-on:click="modPassword">修改</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--修改密码成功-->
+		<div class="modal fade" id="modify_password_suc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">恭喜</h4>
+					</div>
+					<div class="modal-body">
+						<p>密码修改成功,点击确定重新登录</p>
+					</div>
+					<div class="modal-footer text-center">
+						<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+						<button type="button" class="btn btn-primary btn-save" v-on:click="toLogin">确定</button>
 					</div>
 				</div>
 			</div>

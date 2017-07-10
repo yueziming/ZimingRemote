@@ -17,6 +17,7 @@
     <script src="scripts/common/api.js"></script>
     <script src="scripts/common/common.js"></script>
     <!--<script src="scripts/user.js"></script>-->
+    <script src="scripts/wechatController.js"></script>
 </head>
 
 <body>
@@ -32,7 +33,7 @@
             <div id="navbar-menu">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/user.png" class="img-circle" alt="Avatar"> <span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                         <ul class="dropdown-menu">
                             <!--<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>-->
                             <li v-on:click="loginOut"><a href="#"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>

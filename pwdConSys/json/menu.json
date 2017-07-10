@@ -1,5 +1,18 @@
 {
 	"status":"1",
+	"controller":{
+		"id": 0,
+		"company_name": "1",
+		"column6": "0",
+		"column15": "1",
+		"column16": "0",
+		"column18": "1",
+		"name_cn": "0",
+		"created_at": "1",
+		"updated_aa": "0",
+		"updated_bb": "0",
+		"updated_cc": "0",
+	},
 	"navbarMenu":[
 		{
 			"id":1,

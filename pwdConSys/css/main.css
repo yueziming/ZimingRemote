@@ -82,6 +82,7 @@ footer {
 .layout-fullwidth #wrapper .sidebar {
   left: -260px; }
 
+
 .layout-fullwidth #wrapper .main {
   width: 100%; }
 
@@ -1768,7 +1769,7 @@ ul.activity-timeline > li {
   }
   .logo.text-center{
     display:block;
-    padding-bottom: 20px;
+    /*padding-bottom: 20px;*/
   }
   .h12{
     height: 12px;

@@ -32,7 +32,7 @@
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="img/user.png" class="img-circle" alt="Avatar"> <span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>{{username}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<!--<li v-on:click="personalProfile"><a href="#"><i class="lnr lnr-user"></i> <span>个人资料</span></a></li>-->
 								<li v-on:click="loginOut"><a href="#"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>
@@ -118,7 +118,7 @@
 									</div>
 							</div>
 							<div class="panel-primary">
-								<div class="panel-heading">字段分配&nbsp;&nbsp;<small>*红色的为加密字段</small></div>
+								<div class="panel-heading">字段分配&nbsp;&nbsp;<small class="color-yellow">*红色的为加密字段</small></div>
 								<div class="panel-body">
 									<div class="input-group" id="fields">
 										  <span class="input-group-role" v-for="item in fieldList">

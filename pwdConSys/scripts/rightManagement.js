@@ -26,7 +26,7 @@ $(function(){
 					//总项目数
 					totalCount: 200,
 					//分页数
-					pageCount: 20,
+					pageCount: 8,
 					//当前页面
 					pageCurrent: 1,
 					//分页大小
@@ -49,6 +49,8 @@ $(function(){
 					menus:[],
 					//选中列
 					selectTd:{name:''},
+					//权限控制列表
+                    controller:{}
 				},
 				methods: {
 					//分页数据
@@ -234,7 +236,10 @@ $(function(){
                         common.destoryLocalstorage("access_token");
                         //销毁用户名
                         common.destoryLocalstorage("username");
+                        //销毁左侧导航按钮
                         common.destoryLocalstorage("left_menu");
+                        //销毁控制权限组
+                        common.destoryLocalstorage("controller");
                         //跳转到登陆页面
                         location.href = "login.html";
                     },
@@ -257,6 +262,8 @@ $(function(){
 			vue.username = common.getData("username");
 			//获取左侧按钮
 			vue.menus = common.getData("left_menu");
+            //获取控制列表
+            vue.controller = common.getData("controller");
 			vue.$watch("pagesize", function (value) {
 				//获取分页按钮数
 				vue.pageCount = Math.ceil(vue.arrayData.length/vue.pagesize);

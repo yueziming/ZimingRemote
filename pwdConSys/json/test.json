@@ -1,4 +1,4 @@
-{
+/*{
   "headerTitle":["ID","标题","姓名","内容","备注","创建时间"],
   "status":1,
   "data": [
@@ -156,4 +156,109 @@
     }
   ],
   "total": "21"
+}*/
+{
+  "status": 1,
+  "navbarMenu": [
+    {
+      "title": "内容管理",
+      "icon": "lnr lnr-dice",
+      "menuName": "contentControl",
+      "link": "",
+      "children": [
+        {
+          "title": "账户信息管理",
+          "icon": "",
+          "menuName": "",
+          "link": "acount.html",
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "系统管理",
+      "icon": "lnr lnr-cog",
+      "menuName": "systemControl",
+      "link": "",
+      "children": [
+        {
+          "title": "用户管理",
+          "icon": "",
+          "menuName": "",
+          "link": "user.html",
+          "children": []
+        },
+        {
+          "title": "角色管理",
+          "icon": "",
+          "menuName": "",
+          "link": "role.html",
+          "children": []
+        },
+        {
+          "title": "权限管理",
+          "icon": "",
+          "menuName": "",
+          "link": "right-management.html",
+          "children": []
+        },
+        {
+          "title": "公司管理",
+          "icon": "",
+          "menuName": "",
+          "link": "company.html",
+          "children": []
+        },
+        {
+          "title": "字段管理",
+          "icon": "",
+          "menuName": "",
+          "link": "field.html",
+          "children": []
+        }
+      ]
+    }
+  ],
+  "controller": {
+    "userIndex": "1",
+    "userList": "1",
+    "userCreate": "1",
+    "userEdit": "1",
+    "userDelete": "1",
+    "userReset": "1",
+    "permissionIndex": "1",
+    "permissionList": "1",
+    "permissionCreate": "1",
+    "permissionEdit": "1",
+    "permissionDelete": "1",
+    "roleIndex": "1",
+    "roleList": "1",
+    "roleCreate": "1",
+    "roleEdit": "1",
+    "roleDelete": "1",
+    "companyIndex": "1",
+    "companyList": "1",
+    "companyCreate": "1",
+    "companyEdit": "1",
+    "companyDelete": "1",
+//    "columnIndex": "1", //字段视图
+    "columnCreate": "1", //创建字段
+    "columnEdit": "1", //编辑字段
+    "columnDelete": "1", //删除字段
+    "columnList": "1", //获取全部字段列表
+    "columnAddList": "1", //获取全部添加字段
+    "columnAdd": "1", //关联添加字段
+    "columnUserDelete": "1", //删除关联添加字段
+    "accessInformationIndex": "1",
+    "accessInformationList": "1", /
+    "accessInformationCreate": "1",/
+    "accessInformationDelete": "1",/
+    "accessInformationShow": "0",
+    "accessInformationEdit": "1",/
+    "accessInformationExcelReport": "1",/
+    "accessInformationImportExcel": "1",/
+    "menuIndex": "0",
+    "systemManage": "1",
+    "systemContent": "1"
+  }
 }

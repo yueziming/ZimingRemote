@@ -2,98 +2,114 @@
  * Created by yueziming on 2017-6-8.
  */
 
+var host = location.hostname;
+var port = ':2345';
+var protocol = location.protocol+'//';
+
 var Api = {
 	//url基础配置
-	baseUrl:'http://192.168.0.70:1234/api',
+	baseUrl:protocol+''+host+''+port+'/api',
 	url:{
 		//登录接口
-		LOGIN:'http://192.168.0.70:1234/oauth/token',
+		LOGIN:protocol+''+host+''+port+'/oauth/token',
 		//左侧菜单接口
-		LEFTMENU:'http://192.168.0.70:1234/api/menu-index',
+		LEFTMENU:protocol+''+host+''+port+'/api/menu-index',
 		//主页表格接口
-		INDEXTABLE:'http://192.168.0.70:1234/content/ajaxindex/',
+		INDEXTABLE:protocol+''+host+''+port+'/content/ajaxindex/',
 		//权限管理页面接口
-		RIGHTMANAGEMENT:"http://192.168.0.70:1234/api/permission-index",
+		RIGHTMANAGEMENT:protocol+''+host+''+port+'/api/permission-index',
 		//创建权限字段接口
-		PERMISSION:"http://192.168.0.70:1234/api/permission-create",
+		PERMISSION:protocol+''+host+''+port+'/api/permission-create',
 		//创建权限接口
-		CREATERIGHT:"http://192.168.0.70:1234/api/permission-store",
+		CREATERIGHT:protocol+''+host+''+port+'/api/permission-store',
 		//编辑权限接口
-		EDITRIGHT:"http://192.168.0.70:1234/api/permission-edit-",
+		EDITRIGHT:protocol+''+host+''+port+'/api/permission-edit-',
 		//修改权限接口
-		MODIFYRIGHT:"http://192.168.0.70:1234/api/permission-update-",
+		MODIFYRIGHT:protocol+''+host+''+port+'/api/permission-update-',
 		//删除权限接口
-		DELRIGHT:"http://192.168.0.70:1234/api/permission-delete-",
+		DELRIGHT:protocol+''+host+''+port+'/api/permission-delete-',
 		//用户管理界面接口
-		USERINFO:"http://192.168.0.70:1234/api/user-index",
+		USERINFO:protocol+''+host+''+port+'/api/user-index',
 		//获取添加用户信息接口
-		CREATEUSERINFO:"http://192.168.0.70:1234/api/user-create",
+		CREATEUSERINFO:protocol+''+host+''+port+'/api/user-create',
 		//添加用户接口
-		ADDUSER:"http://192.168.0.70:1234/api/user-store",
+		ADDUSER:protocol+''+host+''+port+'/api/user-store',
 		//角色列表页面接口
-		ROLELIST:"http://192.168.0.70:1234/api/role-index",
+		ROLELIST:protocol+''+host+''+port+'/api/role-index',
 		//获取角色接口
-		GETROLE:"http://192.168.0.70:1234/api/role-create",
+		GETROLE:protocol+''+host+''+port+'/api/role-create',
 		//创建角色接口
-		CREATEROLE:"http://192.168.0.70:1234/api/role-store",
+		CREATEROLE:protocol+''+host+''+port+'/api/role-store',
 		//删除角色接口
-		DELROLE:"http://192.168.0.70:1234/api/role-delete-",
+		DELROLE:protocol+''+host+''+port+'/api/role-delete-',
 		//获取编辑角色字段接口
-		GETEDITROLE:"http://192.168.0.70:1234/api/role-edit-",
+		GETEDITROLE:protocol+''+host+''+port+'/api/role-edit-',
 		//修改角色接口
-		MODIFYROLE:"http://192.168.0.70:1234/api/role-update-",
+		MODIFYROLE:protocol+''+host+''+port+'/api/role-update-',
 		//删除用户接口
-		DELUSER:"http://192.168.0.70:1234/api/user-delete-",
+		DELUSER:protocol+''+host+''+port+'/api/user-delete-',
 		//获取修改用户信息接口
-		GETMODIFYUSER:"http://192.168.0.70:1234/api/user-edit-",
+		GETMODIFYUSER:protocol+''+host+''+port+'/api/user-edit-',
 		//修改用户接口
-		MODIFYUSER:"http://192.168.0.70:1234/api/user-update-",
+		MODIFYUSER:protocol+''+host+''+port+'/api/user-update-',
 		//添加自定义字段
-		ADDFIELD:"http://192.168.0.70:1234/api/column-store",
+		ADDFIELD:protocol+''+host+''+port+'/api/column-store',
 		//获取所有字段
-		GETALLFIELD:"http://192.168.0.70:1234/api/column-index",
+		GETALLFIELD:protocol+''+host+''+port+'/api/column-index',
 		//获取用户关联字段
-		GETRELATIONFIELD:"http://192.168.0.70:1234/api/column-list",
+		GETRELATIONFIELD:protocol+''+host+''+port+'/api/column-list',
 		//添加用户关联字段
-		ADDRELATIONFIELD:"http://192.168.0.70:1234/api/column-add-",
+		ADDRELATIONFIELD:protocol+''+host+''+port+'/api/column-add-',
 		//移除用户关联字段
-		REMOVERELATIONFIELD:"http://192.168.0.70:1234/api/column-user-delete-",
+		REMOVERELATIONFIELD:protocol+''+host+''+port+'/api/column-user-delete-',
 		//获取用户添加关联字段
-		GETSHOWRELATIONFIELD:"http://192.168.0.70:1234/api/column-list",
+		GETSHOWRELATIONFIELD:protocol+''+host+''+port+'/api/column-list',
 		//获取用户选择的显示关联字段
-		GETSELECTEDRELATIONFIELD:"http://192.168.0.70:1234/api/column-view",
+		GETSELECTEDRELATIONFIELD:protocol+''+host+''+port+'/api/column-view',
 		//设置用户需要显示的字段
-		SETSHOWRELATIONFIELD:"http://192.168.0.70:1234/api/column-view-reset",
+		SETSHOWRELATIONFIELD:protocol+''+host+''+port+'/api/column-view-reset',
 		//获取内容列表
-		GETCONTENTLIST:"http://192.168.0.70:1234/api/access-index",
+		GETCONTENTLIST:protocol+''+host+''+port+'/api/access-index',
 		//创建内容列表
-		CREATECONTENT:"http://192.168.0.70:1234/api/access-create",
+		CREATECONTENT:protocol+''+host+''+port+'/api/access-create',
 		//下载EXCEL内容
-		DOWNLOADEXCEL:"http://192.168.0.70:1234/api/access-excel-download",
+		DOWNLOADEXCEL:protocol+''+host+''+port+'/api/access-excel-download',
 		//添加内容接口
-		ADDCONTENT:"http://192.168.0.70:1234/api/access-store",
+		ADDCONTENT:protocol+''+host+''+port+'/api/access-store',
 		//编辑内容获取信息接口
-		GETEDITCONTENT:"http://192.168.0.70:1234/api/access-edit-",
+		GETEDITCONTENT:protocol+''+host+''+port+'/api/access-edit-',
 		//修改内容接口
-		MODIFYCONTENT:"http://192.168.0.70:1234/api/access-update-",
+		MODIFYCONTENT:protocol+''+host+''+port+'/api/access-update-',
 		//删除内容接口
-		DELCONTENT:"http://192.168.0.70:1234/api/access-delete-",
+		DELCONTENT:protocol+''+host+''+port+'/api/access-delete-',
 		//导入EXCEL接口
-		IMPORTEXCEL:"http://192.168.0.70:1234/api/access-excel-import",
+		IMPORTEXCEL:protocol+''+host+''+port+'/api/access-excel-import',
         //获取编辑字段接口
-        GEIEDITFIELD:"http://192.168.0.70:1234/api/column-edit-",
+        GEIEDITFIELD:protocol+''+host+''+port+'/api/column-edit-',
         //修改字段接口
-        MODIFYFIELD:"http://192.168.0.70:1234/api/column-update-",
+        MODIFYFIELD:protocol+''+host+''+port+'/api/column-update-',
         //删除字段接口
-        DELFIELD:"http://192.168.0.70:1234/api/column-delete-",
+        DELFIELD:protocol+''+host+''+port+'/api/column-delete-',
         //公司列表接口
-        COMPANNEYLIST:"http://192.168.0.70:1234/api/company-index",
+        COMPANNEYLIST:protocol+''+host+''+port+'/api/company-index',
         //添加公司接口
-        ADDCOMPANNEY:"http://192.168.0.70:1234/api/company-store",
+        ADDCOMPANNEY:protocol+''+host+''+port+'/api/company-store',
         //修改公司接口
-        MODIFYCOMPANNEY:"http://192.168.0.70:1234/api/company-update-",
+        MODIFYCOMPANNEY:protocol+''+host+''+port+'/api/company-update-',
         //删除公司接口
-        DELCOMPANNEY:"http://192.168.0.70:1234/api/company-delete-"
+        DELCOMPANNEY:protocol+''+host+''+port+'/api/company-delete-',
+		//账户信息管理对应公司搜索接口
+		COMPANYSEARCH:protocol+''+host+''+port+'/api/company-user',
+		//修改密码接口
+		MODIFYPASSWORD:protocol+''+host+''+port+'/api/reset-password',
+		//获取备份数据列表
+		GETBACKUPSDATABASE:protocol+''+host+''+port+'/api/backup-list',
+		//添加自动备份
+		ADDBACKUPSDATABASE:protocol+''+host+''+port+'/api/backup-export',
+		//还原备份接口
+        REDUCEBACKUPSDATABASE:protocol+''+host+''+port+'/api/backup-reduction',
+		//删除备份接口
+        DELBACKUPSDATABASE:protocol+''+host+''+port+'/api/backup-delete'
 	},
 	localJson:{
 		//左侧菜单接口

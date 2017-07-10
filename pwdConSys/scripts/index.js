@@ -22,6 +22,10 @@ $(function(){
 				if(res && res.status ===1){
 					self.model(res);
 				}
+				else{
+					common.tips("页面初始化失败",1500);
+					location.href = "login.html";
+				}
 			});
 		},
 		model:function(res){
@@ -29,19 +33,49 @@ $(function(){
 				el:'#wrapper',
 				data:{
 					menus:[],
-					username:''
+					username:'',
+					controller:{},
+                    password:'',
+                    ensurePassword:'',
+                    oldPassword:''
 				},
 				methods:{
 					personalProfile:function (){
-
+						$("#modify_password").modal("show");
+						// vue.loginOut();
 					},
+                    modPassword:function () {
+                        if(vue.password != vue.ensurePassword){
+                            common.tips("两次密码输入不一致!",2000);
+                        }else{
+                            var data = {
+                                newPassword:vue.ensurePassword,
+                                oldPassword:vue.oldPassword
+                            };
+                            common.ajax(Api.url.MODIFYPASSWORD,"post",data,function (res) {
+                                if(res && res.status && res.status == '1'){
+                                    console.log(res);
+                                    $("#modify_password").modal("hide");
+                                    $("#modify_password_suc").modal("show");
+                                    // vue.loginOut();
+                                }
+                                common.tips(res.message,2000);
+                            })
+                        }
+                    },
+                    toLogin:function () {
+                        vue.loginOut();
+                    },
                     //退出按钮
                     loginOut:function(){
                         //销毁令牌
                         common.destoryLocalstorage("access_token");
                         //销毁用户名
                         common.destoryLocalstorage("username");
+                        //销毁左侧导航按钮
                         common.destoryLocalstorage("left_menu");
+                        //销毁控制权限组
+                        common.destoryLocalstorage("controller");
                         //跳转到登陆页面
                         location.href = "login.html";
                     },
@@ -84,8 +118,14 @@ $(function(){
                     vue.menus.push(menuObj);
 				}
 			}
+			//获取权限控制对象列表
+			for(var k in res.controller){
+				vue.controller[k] = res.controller[k];
+			}
 			//存储左侧导航按钮到本地存储
 			common.setData("left_menu",vue.menus);
+			//存储权限控制到本地存储
+			common.setData("controller",vue.controller);
 			//设置用户名
 			vue.username = common.getData("username");
 		}

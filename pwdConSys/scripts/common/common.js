@@ -35,7 +35,7 @@ $(function(){
 		},
 		//ajax的loading样式
 		ajaxLoading:function(){
-			var loadingHtml = '<div id="loading" class="spinner"><div class="spinner-container container1"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container2"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container3"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div>加载中</div>';
+			var loadingHtml = '<div id="loading"><div class="spinner"><div class="spinner-container container1"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container2"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container3"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div>加载中</div></div>';
 			$("body").append(loadingHtml);
 		},
 		//ajax的loading停止
@@ -50,24 +50,24 @@ $(function(){
 		//设置本地存储
 		setData:function(key,value){
 			if(typeof value == 'object'){
-				localStorage.setItem(key,JSON.stringify(value));
+                sessionStorage.setItem(key,JSON.stringify(value));
 			}
 			else{
-				localStorage.setItem(key,value);
+                sessionStorage.setItem(key,value);
 			}
 		},
 		//获取本地存储数据
 		getData:function(key){
 			try{
-				var data = JSON.parse(localStorage.getItem(key));
+				var data = JSON.parse(sessionStorage.getItem(key));
 			}catch(e){
-				var data = localStorage.getItem(key);
+				var data = sessionStorage.getItem(key);
 			}
 			return data;
 		},
 		//销毁本地存储
 		destoryLocalstorage:function(key){
-			localStorage.removeItem(key);
+            sessionStorage.removeItem(key);
 		},
 		//弹出提示
 		tips:function(msg,time){
@@ -83,7 +83,7 @@ $(function(){
          */
         //验证用户名
         validateuserName:function (username) {
-			var reg = /(^[A-Za-z0-9]{6,16}$)|(^[\u4E00-\u9FA5]{2,8}$)/;
+			var reg = /(^[A-Za-z0-9]{1,16}$)|(^[\u4E00-\u9FA5]{2,8}$)/;
 			var res = reg.test(username);
 			return res;
         },
@@ -117,9 +117,15 @@ $(function(){
         },
         //是否为英文和数字
 		isEnglishAndNum:function (s) {
-			var reg = /^[A-Za-z0-9]+$/;
+			var reg = /^[A-Za-z0-9.]+$/;
             var res = reg.test(s);
             return res;
+        },
+        //验证手机号码
+		isMobile:function (m) {
+        	var reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
+        	var res = reg.test(m);
+        	return res;
         }
 }
 	window.common = common;

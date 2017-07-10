@@ -12,11 +12,11 @@
 	<link rel="icon" type="image/png" sizes="96x96" href="img/logo.png">
 	<link rel="stylesheet" href="css/login.css">
 	<script src="scripts/lib/jquery/jquery.min.js"></script>
-	<script src="scripts/login.js"></script>
 	<script src="scripts/lib/vue.js"></script>
 	<script src="scripts/common/api.js"></script>
 	<script src="scripts/common/constant.js"></script>
 	<script src="scripts/common/common.js"></script>
+	<script src="scripts/login.js"></script>
 </head>
 
 <body>
@@ -31,26 +31,30 @@
 				<div class="auth-box lockscreen clearfix">
 					<div class="content">
 						<!--<h2>瑞辉医疗密码管理系统</h2>-->
-						<div class="logo text-center"><img src="img/loginLogo.png" width="340px" height="40px" alt="gimmay Logo"></div>
+						<div class="logo text-center"><img id="myLogo" src="img/loginLogo.png" alt="gimmay Logo"></div>
 						<div class="header">
 							<p class="lead">账户登录</p>
 						</div>
 						<form class="form-auth-small">
-							<div class="form-group">
-								<input type="email" class="form-control" id="signin-email" placeholder="用户名" v-model="username">
+							<div id="username" class="form-group">
+								<input type="email" class="form-control" placeholder="用户名" v-model="username">
+								<span class="help-block">{{userError}}</span>
+								<!--<i class="glyphicon glyphicon-remove form-control-feedback"></i>-->
 							</div>
-							<div class="form-group">
-								<input type="password" class="form-control" id="signin-password" placeholder="密码" v-model="password" @keyup.enter="login">
+							<div id="passworld" class="form-group">
+								<input type="password" class="form-control" placeholder="密码" v-model="password" @keyup.enter="login">
+								<span class="help-block">{{passwordError}}</span>
+								<!--<i class="glyphicon glyphicon-remove form-control-feedback"></i>-->
 							</div>
-							<div class="form-group clearfix">
+							<!--<div class="form-group clearfix">
 								<label class="fancy-checkbox element-left">
 									<input type="checkbox">
 									<span>记住密码</span>
 								</label>
-							</div>
+							</div>-->
 							<button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="login">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
 							<div class="bottom">
-								<span class="helper-text"><i class="fa fa-lock"></i> <a href="#">忘记密码？</a></span>
+								<span class="helper-text"><i class="fa fa-lock"></i> <a :href="forgetPassword">忘记密码？</a></span>
 							</div>
 						</form>
 					</div>
@@ -67,7 +71,7 @@
 						<h4 class="modal-title">警告</h4>
 					</div>
 					<div class="modal-body">
-						<p>用户名或密码不合法:<br>用户名：不能包含特殊字符且在7个纯汉字或16个英文字母之内<br>密码：只能输入6-20个字母、数字、下划线</p>
+						<p>登录失败，账号或用户密码错误</p>
 					</div>
 					<div class="modal-footer text-center">
 						<!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
