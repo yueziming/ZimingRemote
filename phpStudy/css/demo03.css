@@ -1,0 +1,16 @@
+.green-line{
+	display : inline-block;
+	width :2px;
+	height: 20px;
+	background-color : green;
+}
+li{
+	border-width: 0px 0px 0px 4px;
+	border-color : darkgreen;
+	border-style: solid;
+	padding-left: 4px;
+}
+code{
+	color: red;
+	background-color: #eee;
+}
